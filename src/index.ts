@@ -14,7 +14,6 @@ app.use((req, res, next) =>
 );
 
 app.use(cors());
-
 app.use(authRouter);
 app.use(appRouter);
 app.all('*', (_, res) => {
