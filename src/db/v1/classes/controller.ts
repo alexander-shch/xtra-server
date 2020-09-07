@@ -60,5 +60,7 @@ export async function UpdateClass(id: string, data: IClassRoom) {
     id,
     { $set: data },
     { new: true, runValidators: true }
-  ).exec();
+  )
+    .exec()
+    .then((classData) => GetSingleClassRoom({ _id: classData?._id }));
 }
