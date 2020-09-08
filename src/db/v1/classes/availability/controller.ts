@@ -36,11 +36,8 @@ export async function Create(
   );
 }
 
-export async function Delete(id: string): Promise<boolean> {
-  return ClassAvailabilityModel.findByIdAndDelete(id).then((d) => {
-    console.log(d);
-    return true;
-  });
+export async function DeleteAvailability(id: string): Promise<boolean> {
+  return ClassAvailabilityModel.findByIdAndDelete(id).then(() => true);
 }
 
 export async function UpdateAvailability(
