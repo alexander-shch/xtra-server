@@ -26,13 +26,13 @@ interface ICategory extends Document {
 }
 
 const OptionSchema = new Schema<Option>({
-  value: { type: String, required: true },
-  title: { type: String, required: true },
+  value: { type: String, required: false },
+  title: { type: String, required: false },
 });
 
 const SessionSchema = new Schema<Session>({
-  value: { type: String, required: true },
-  title: { type: String, required: true },
+  count: { type: OptionSchema, required: false },
+  length: { type: OptionSchema, required: false },
 });
 
 const CourseDefaultsSchema = new Schema<CourseDefaults>({

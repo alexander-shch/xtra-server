@@ -17,5 +17,6 @@ export function createPermissionsList(allow: boolean): PermissionList {
     permissions: createPermissionTableWithStatus(allow),
     buildings: createPermissionTableWithStatus(allow),
     classes: createPermissionTableWithStatus(allow),
+    categories: createPermissionTableWithStatus(allow),
   };
 }
