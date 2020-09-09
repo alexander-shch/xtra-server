@@ -1,5 +1,10 @@
 export type PermissionOptions = 'read' | 'update' | 'delete' | 'create';
-export type PermissionsScope = 'user' | 'permissions' | 'buildings' | 'classes';
+export type PermissionsScope =
+  | 'user'
+  | 'permissions'
+  | 'buildings'
+  | 'classes'
+  | 'categories';
 export type PermissionTable = Record<PermissionOptions, boolean>;
 export type PermissionList = Record<PermissionsScope, PermissionTable>;
 export interface Role {
