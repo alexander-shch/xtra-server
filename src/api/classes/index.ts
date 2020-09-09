@@ -209,7 +209,7 @@ classesRouter.put(
 
 // Update a specific availability for a class rooms
 classesRouter.delete(
-  'availability/:availabilityId',
+  '/availability/:availabilityId',
   allow(scope),
   (req: RequestExtend, res: Response) => {
     const { availabilityId } = req.params;
