@@ -26,6 +26,7 @@ export const PermissionsSchema = new Schema<PermissionList>(
     permissions: { type: PermissionSchema, required: true },
     buildings: { type: PermissionSchema, required: true },
     classes: { type: PermissionSchema, required: true },
+    categories: { type: PermissionSchema, required: true },
   },
   {
     _id: false,
