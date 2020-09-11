@@ -9,32 +9,36 @@ import {
   NotFound,
 } from '../../helper/http';
 import {
-  GetAllCategories,
-  GetSingleCategory,
-  CreateCategory,
-  UpdateCategory,
-  DeleteCategory,
-} from '../../db/v1/categories/controller';
+  GetAllPayDuplicators,
+  GetSinglePayDuplicator,
+  CreatePayDuplicator,
+  UpdatePayDuplicator,
+  DeletePayDuplicator,
+} from '../../db/v1/pay-duplicator/controller';
 
-const categoriesRouter = Router();
-const scope = 'categories';
+const payDuplicatorRouter = Router();
+const scope = 'payDuplicator';
 
-categoriesRouter.get('/', allow(scope), (req: RequestExtend, res: Response) => {
-  if (!isValidObjectId(req.params.id)) {
-    return BadRequest(res);
+payDuplicatorRouter.get(
+  '/',
+  allow(scope),
+  (req: RequestExtend, res: Response) => {
+    if (!isValidObjectId(req.params.id)) {
+      return BadRequest(res);
+    }
+
+    return GetAllPayDuplicators()
+      .then((data) => {
+        return SuccessfulResponse(res, data);
+      })
+      .catch((err) => {
+        console.error(err.errors);
+        return ServerError(res);
+      });
   }
+);
 
-  return GetAllCategories()
-    .then((data) => {
-      return SuccessfulResponse(res, data);
-    })
-    .catch((err) => {
-      console.error(err.errors);
-      return ServerError(res);
-    });
-});
-
-categoriesRouter.get(
+payDuplicatorRouter.get(
   '/:id',
   allow(scope),
   (req: RequestExtend, res: Response) => {
@@ -43,7 +47,7 @@ categoriesRouter.get(
       return BadRequest(res);
     }
 
-    return GetSingleCategory({ _id: id })
+    return GetSinglePayDuplicator({ _id: id })
       .then((data) => {
         if (!data) {
           return NotFound(res);
@@ -57,11 +61,11 @@ categoriesRouter.get(
   }
 );
 
-categoriesRouter.post(
+payDuplicatorRouter.post(
   '/',
   allow(scope),
   async (req: RequestExtend, res: Response) => {
-    return CreateCategory(req.body)
+    return CreatePayDuplicator(req.body)
       .then((data) => {
         return SuccessfulResponse(res, data);
       })
@@ -72,7 +76,7 @@ categoriesRouter.post(
   }
 );
 
-categoriesRouter.put(
+payDuplicatorRouter.put(
   '/:id',
   allow(scope),
   (req: RequestExtend, res: Response) => {
@@ -80,7 +84,7 @@ categoriesRouter.put(
     if (!isValidObjectId(id)) {
       return BadRequest(res);
     }
-    return UpdateCategory(id, req.body)
+    return UpdatePayDuplicator(id, req.body)
       .then((data) => {
         if (!data) {
           return NotFound(res);
@@ -94,7 +98,7 @@ categoriesRouter.put(
   }
 );
 
-categoriesRouter.delete(
+payDuplicatorRouter.delete(
   '/:id',
   allow(scope),
   (req: RequestExtend, res: Response) => {
@@ -102,7 +106,7 @@ categoriesRouter.delete(
     if (!isValidObjectId(id)) {
       return BadRequest(res);
     }
-    return DeleteCategory(id)
+    return DeletePayDuplicator(id)
       .then((deleted) => {
         return SuccessfulResponse(res, { deleted });
       })
@@ -113,4 +117,4 @@ categoriesRouter.delete(
   }
 );
 
-export default categoriesRouter;
+export default payDuplicatorRouter;

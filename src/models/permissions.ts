@@ -4,7 +4,8 @@ export type PermissionsScope =
   | 'permissions'
   | 'buildings'
   | 'classes'
-  | 'categories';
+  | 'categories'
+  | 'payDuplicator';
 export type PermissionTable = Record<PermissionOptions, boolean>;
 export type PermissionList = Record<PermissionsScope, PermissionTable>;
 export interface Role {
