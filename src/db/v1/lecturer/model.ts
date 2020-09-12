@@ -31,7 +31,7 @@ interface ILecturer {
 
 type ILecturerDOC = ILecturer & Document;
 
-export const ILecturerSchema = new Schema<ILecturerDOC>({
+export const ILecturerSchema = new Schema<ILecturer>({
   name: { type: String, required: true },
   idNumber: { type: Number, required: true },
   email: {

@@ -1,27 +1,64 @@
-// import PayDuplicatorSchemaModel, { PayDuplicator } from './model';
+import LecturerSchemaModel, { Lecturer } from './model';
 
-// export async function GetAllPayDuplicators(
-//   query: object = {}
-// ): Promise<PayDuplicator[]> {
-//   return PayDuplicatorSchemaModel.find(query);
-// }
+export async function GetAllLecturers(query: object = {}): Promise<Lecturer[]> {
+  return LecturerSchemaModel.aggregate([
+    {
+      match: query,
+    },
+    {
+      $lookup: {
+        from: 'notes',
+        localField: 'notes',
+        foreignField: '_id',
+        as: 'notes',
+      },
+    },
+    {
+      $lookup: {
+        from: 'notes',
+        localField: 'internalNotes',
+        foreignField: '_id',
+        as: 'internalNotes',
+      },
+    },
+  ]).then((data) => data.map((d) => d.toJSON()));
+}
 
-// export async function GetSinglePayDuplicator(query: object = {}) {
-//   return PayDuplicatorSchemaModel.findOne(query);
-// }
+export async function GetSingleLecturer(query: object = {}) {
+  return LecturerSchemaModel.findOne(query);
+}
 
-// export async function CreatePayDuplicator(payDuplicatorData: PayDuplicator) {
-//   const newClass = new PayDuplicatorSchemaModel(payDuplicatorData);
-//   return newClass.save().then((d) => d.toJSON());
-// }
+export async function CreateLecturer(
+  LecturerData: Lecturer
+): Promise<Lecturer> {
+  const newClass = new LecturerSchemaModel(LecturerData);
+  return newClass.save().then((d) => d.toJSON());
+}
 
-// export async function DeletePayDuplicator(id: string) {
-//   return PayDuplicatorSchemaModel.findByIdAndDelete(id).then((_) => true);
-// }
+export async function DeleteLecturer(id: string): Promise<Boolean> {
+  return LecturerSchemaModel.findByIdAndDelete(id).then((_) => true);
+}
 
-// export async function UpdatePayDuplicator(id: string, data: PayDuplicator) {
-//   return PayDuplicatorSchemaModel.findByIdAndUpdate(id, data, {
-//     new: true,
-//     runValidators: true,
-//   }).exec();
-// }
+export async function UpdateLecturer(
+  id: string,
+  data: Lecturer
+): Promise<Lecturer> {
+  return LecturerSchemaModel.findByIdAndUpdate(id, data, {
+    new: true,
+    runValidators: true,
+  })
+    .exec()
+    .then((data) => data?.toJSON());
+}
+
+export async function AddNote(lecturerId: string, noteId: string) {
+  return LecturerSchemaModel.findByIdAndUpdate(lecturerId, {
+    $push: { notes: noteId },
+  });
+}
+
+export async function RemoveNote(lecturerId: string, noteId: string) {
+  return LecturerSchemaModel.findByIdAndUpdate(lecturerId, {
+    $pull: { notes: noteId },
+  });
+}

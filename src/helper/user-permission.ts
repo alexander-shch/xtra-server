@@ -29,6 +29,20 @@ function methodMapper(method: string): PermissionOptions | undefined {
   }
 }
 
+export function loggedIn(
+  req: RequestExtend,
+  res: Response,
+  next: NextFunction
+) {
+  const { user } = req;
+  if (!user) {
+    return res.status(401).json({
+      message: `Action is not allowed`,
+    });
+  }
+  return next();
+}
+
 export default function allow(scope: PermissionsScope) {
   return (req: RequestExtend, res: Response, next: NextFunction) => {
     const method = req.method;
