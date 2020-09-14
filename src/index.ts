@@ -3,8 +3,9 @@ import express from 'express';
 import authRouter from './auth';
 import appRouter from './routing';
 import mongoConnect from './db/v1';
+import expressFileUpload from 'express-fileupload';
 
-const cors = require("cors");
+const cors = require('cors');
 
 const app = express();
 
@@ -14,6 +15,11 @@ app.use((req, res, next) =>
 );
 
 app.use(cors());
+app.use(
+  expressFileUpload({
+    createParentPath: true,
+  })
+);
 
 app.use(authRouter);
 app.use(appRouter);

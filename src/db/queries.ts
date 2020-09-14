@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { isValidObjectId, Types } from 'mongoose';
 
 function ByIds(data: string[]) {
   return {
@@ -9,6 +9,9 @@ function ByIds(data: string[]) {
 }
 
 function ById(id: string) {
+  if (isValidObjectId(id)) {
+    throw new Error(`${id} is not a valid object id`);
+  }
   const _id = Types.ObjectId(id);
   return { _id };
 }

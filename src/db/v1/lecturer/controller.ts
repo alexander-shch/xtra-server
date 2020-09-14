@@ -21,11 +21,28 @@ export async function GetAllLecturers(query: object = {}): Promise<Lecturer[]> {
         as: 'internalNotes',
       },
     },
+    {
+      $lookup: {
+        from: 'files',
+        localField: 'avatar',
+        foreignField: '_id',
+        as: 'avatar',
+      },
+    },
+    {
+      $unwind: {
+        path: '$avatar',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
   ]).exec();
 }
 
-export async function GetSingleLecturer(query: object = {}) {
-  return LecturerSchemaModel.findOne(query);
+export async function GetSingleLecturer(query: object = {}): Promise<Lecturer> {
+  return GetAllLecturers(query).then((data) => {
+    console.log(data[0]);
+    return data[0];
+  });
 }
 
 export async function CreateLecturer(
@@ -41,14 +58,20 @@ export async function DeleteLecturer(id: string): Promise<Boolean> {
 
 export async function UpdateLecturer(
   id: string,
-  data: Lecturer
+  data: Partial<Lecturer>
 ): Promise<Lecturer> {
-  return LecturerSchemaModel.findByIdAndUpdate(id, data, {
-    new: true,
-    runValidators: true,
-  })
+  return LecturerSchemaModel.findByIdAndUpdate(
+    id,
+    {
+      $set: data,
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  )
     .exec()
-    .then((data) => data?.toJSON());
+    .then((data) => GetSingleLecturer({ _id: data?._id }));
 }
 
 export async function AddNote(lecturerId: string, noteId: string) {

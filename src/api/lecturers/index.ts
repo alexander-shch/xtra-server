@@ -17,8 +17,10 @@ import {
   AddNote,
   RemoveNote,
 } from '../../db/v1/lecturer/controller';
-import { GetNotes, CreateNote, DeleteNote } from '../../db/v1/notes/controller';
+import { CreateNote, DeleteNote } from '../../db/v1/notes/controller';
 import Queries from '../../db/queries';
+import { Delete, Upload } from '../../db/v1/files/controller';
+import { UploadedFile } from 'express-fileupload';
 
 const lecturerRouter = Router();
 const scope = 'lecturer';
@@ -29,6 +31,8 @@ lecturerRouter.get(
   async (_: RequestExtend, res: Response) => {
     return GetAllLecturers()
       .then((data) => {
+        console.log(data);
+
         return SuccessfulResponse(res, data);
       })
       .catch((err) => {
@@ -128,7 +132,6 @@ lecturerRouter.get(
 
     return GetSingleLecturer(Queries.ById(lecturerId))
       .then((lecturer) => lecturer?.notes || [])
-      .then((notes) => GetNotes(Queries.ByIds(notes as string[])))
       .then((notes) => SuccessfulResponse(res, notes))
       .catch(({ errors }) => {
         console.error(errors);
@@ -176,6 +179,37 @@ lecturerRouter.delete(
         console.error(errors);
         return ServerError(res, errors);
       });
+  }
+);
+
+lecturerRouter.post(
+  '/:lecturerId/avatar',
+  allow(scope),
+  (req: RequestExtend, res: Response) => {
+    const { lecturerId } = req.params;
+    if (!isValidObjectId(lecturerId)) {
+      return BadRequest(res);
+    }
+
+    if (!req.files || !req.files.avatar) {
+      return res.send({
+        status: false,
+        message: 'No file uploaded',
+      });
+    }
+    return GetSingleLecturer(Queries.ById(lecturerId))
+      .then((lecturer) => {
+        if (!lecturer.avatar?._id) {
+          return Promise.resolve();
+        }
+        return Delete(Queries.ById(lecturer.avatar._id));
+      })
+      .then(() => Upload(req.files?.avatar as UploadedFile))
+      .then((fileUploaded) =>
+        UpdateLecturer(lecturerId, { avatar: fileUploaded._id })
+      )
+      .then((lecturer) => SuccessfulResponse(res, lecturer))
+      .catch((errors) => ServerError(res, errors));
   }
 );
 

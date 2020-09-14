@@ -3,6 +3,7 @@ import { Validators } from '../../validators';
 import { PayDuplicator } from '../pay-duplicator/model';
 import { Address } from '../../../models';
 import { AddressSchema } from '../../schema';
+import { FileDetails } from '../files/model';
 
 interface Note {
   user: string; //must be aggregated with actual user,
@@ -20,7 +21,7 @@ interface ILecturer {
   duplicator: string | PayDuplicator; //duplicator id
   active: boolean;
   details: string; //text editor
-  avatar: string;
+  avatar: string | FileDetails;
   description: string;
   experience: string;
   teaching: string;
@@ -62,6 +63,7 @@ export interface Lecturer extends ILecturer {
   duplicator: PayDuplicator;
   notes: Note[];
   internalNotes: Note[];
+  avatar: FileDetails;
 }
 
 export default mongoose.model<ILecturerDOC>('lecturer', ILecturerSchema);
