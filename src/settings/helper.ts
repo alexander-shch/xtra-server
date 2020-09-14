@@ -13,12 +13,12 @@ export function createPermissionTableWithStatus(
 
 export function createPermissionsList(allow: boolean): PermissionList {
   return {
-    user: createPermissionTableWithStatus(allow),
-    permissions: createPermissionTableWithStatus(allow),
     buildings: createPermissionTableWithStatus(allow),
     classes: createPermissionTableWithStatus(allow),
     categories: createPermissionTableWithStatus(allow),
-    payDuplicator: createPermissionTableWithStatus(allow),
     lecturer: createPermissionTableWithStatus(allow),
+    permissions: createPermissionTableWithStatus(allow),
+    payDuplicator: createPermissionTableWithStatus(allow),
+    user: createPermissionTableWithStatus(allow),
   };
 }

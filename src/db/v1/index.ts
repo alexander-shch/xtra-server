@@ -56,6 +56,7 @@ async function populate() {
         permissions: DefaultPermissionsSuperUser,
       });
     } else if (!isEqual(role.permissions, DefaultPermissionsSuperUser)) {
+      console.log(`Role ${role._id} update with new permissions`);
       await RoleUpdateOne(role._id, {
         permissions: DefaultPermissionsSuperUser,
       });

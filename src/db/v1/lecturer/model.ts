@@ -52,7 +52,7 @@ export const ILecturerSchema = new Schema<ILecturer>({
   description: { type: String, required: false },
   experience: { type: String, required: false },
   teaching: { type: String, required: false },
-  notes: { type: [Schema.Types.ObjectId], required: false },
+  notes: { type: String, required: false },
   files: { type: [Schema.Types.ObjectId], required: false },
   internalNotes: { type: [Schema.Types.ObjectId], required: false },
 });

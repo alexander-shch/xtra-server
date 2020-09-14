@@ -3,7 +3,7 @@ import LecturerSchemaModel, { Lecturer } from './model';
 export async function GetAllLecturers(query: object = {}): Promise<Lecturer[]> {
   return LecturerSchemaModel.aggregate([
     {
-      match: query,
+      $match: query,
     },
     {
       $lookup: {
@@ -21,7 +21,7 @@ export async function GetAllLecturers(query: object = {}): Promise<Lecturer[]> {
         as: 'internalNotes',
       },
     },
-  ]).then((data) => data.map((d) => d.toJSON()));
+  ]).exec();
 }
 
 export async function GetSingleLecturer(query: object = {}) {

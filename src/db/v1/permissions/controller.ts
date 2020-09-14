@@ -14,7 +14,15 @@ export async function FindRoles(query: Partial<IRole> = {}) {
 }
 
 export async function RoleUpdateOne(_id: string, doc: Partial<IRole>) {
-  return RoleModel.findByIdAndUpdate(_id, doc, {
-    new: true,
-  });
+  console.log(doc);
+  
+  return RoleModel.findByIdAndUpdate(
+    _id,
+    {
+      $set: doc,
+    },
+    {
+      new: true,
+    }
+  );
 }

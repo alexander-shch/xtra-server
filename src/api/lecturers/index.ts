@@ -23,25 +23,25 @@ import Queries from '../../db/queries';
 const lecturerRouter = Router();
 const scope = 'lecturer';
 
-lecturerRouter.get('/', allow(scope), (req: RequestExtend, res: Response) => {
-  if (!isValidObjectId(req.params.id)) {
-    return BadRequest(res);
+lecturerRouter.get(
+  '/',
+  allow(scope),
+  async (_: RequestExtend, res: Response) => {
+    return GetAllLecturers()
+      .then((data) => {
+        return SuccessfulResponse(res, data);
+      })
+      .catch((err) => {
+        console.error(err.errors);
+        return ServerError(res);
+      });
   }
-
-  return GetAllLecturers()
-    .then((data) => {
-      return SuccessfulResponse(res, data);
-    })
-    .catch((err) => {
-      console.error(err.errors);
-      return ServerError(res);
-    });
-});
+);
 
 lecturerRouter.get(
   '/:id',
   allow(scope),
-  (req: RequestExtend, res: Response) => {
+  async (req: RequestExtend, res: Response) => {
     const { id } = req.params;
     if (!isValidObjectId(id)) {
       return BadRequest(res);
