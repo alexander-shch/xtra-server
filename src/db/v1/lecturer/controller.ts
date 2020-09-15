@@ -86,10 +86,38 @@ export async function UpdateLecturer(
   id: string,
   data: Partial<Lecturer>
 ): Promise<Lecturer> {
+  // remove fields that should not be updated with general update
+  delete data.avatar;
+  delete data.internalNotes;
+
   return LecturerSchemaModel.findByIdAndUpdate(
     id,
     {
       $set: data,
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  )
+    .exec()
+    .then((data) => GetSingleLecturer({ _id: data?._id }));
+}
+
+/**
+ * @export
+ * @param {string} id
+ * @param {Partial<Lecturer>} data
+ * @return {*}  {Promise<Lecturer>}
+ */
+export async function UpdateLecturerAvatar(
+  id: string,
+  avatarObjectId: string
+): Promise<Lecturer> {
+  return LecturerSchemaModel.findByIdAndUpdate(
+    id,
+    {
+      $set: { avatar: avatarObjectId },
     },
     {
       new: true,

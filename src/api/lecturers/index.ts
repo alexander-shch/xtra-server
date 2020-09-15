@@ -16,6 +16,7 @@ import {
   DeleteLecturer,
   AddNote,
   RemoveNote,
+  UpdateLecturerAvatar,
 } from '../../db/v1/lecturer/controller';
 import { CreateNote, DeleteNote } from '../../db/v1/notes/controller';
 import Queries from '../../db/queries';
@@ -205,7 +206,7 @@ lecturerRouter.post(
       })
       .then(() => Upload(fileToUpload))
       .then((fileUploaded) =>
-        UpdateLecturer(lecturerId, { avatar: fileUploaded._id })
+        UpdateLecturerAvatar(lecturerId, fileUploaded._id)
       )
       .then((lecturer) => SuccessfulResponse(res, lecturer))
       .catch((errors) => ServerError(res, errors));
