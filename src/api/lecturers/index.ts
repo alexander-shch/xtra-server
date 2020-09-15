@@ -31,9 +31,9 @@ lecturerRouter.get(
       .then((data) => {
         return SuccessfulResponse(res, data);
       })
-      .catch((err) => {
-        console.error(err.errors);
-        return ServerError(res);
+      .catch(({ errors }) => {
+        console.error(errors);
+        return ServerError(res, errors);
       });
   }
 );
