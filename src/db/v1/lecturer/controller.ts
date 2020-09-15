@@ -1,5 +1,10 @@
 import LecturerSchemaModel, { Lecturer } from './model';
 
+/**
+ * @export
+ * @param {object} [query={}]
+ * @return {*}  {Promise<Lecturer[]>}
+ */
 export async function GetAllLecturers(query: object = {}): Promise<Lecturer[]> {
   return LecturerSchemaModel.aggregate([
     {
@@ -38,6 +43,11 @@ export async function GetAllLecturers(query: object = {}): Promise<Lecturer[]> {
   ]).exec();
 }
 
+/**
+ * @export
+ * @param {object} [query={}]
+ * @return {*}  {Promise<Lecturer>}
+ */
 export async function GetSingleLecturer(query: object = {}): Promise<Lecturer> {
   return GetAllLecturers(query).then((data) => {
     console.log(data[0]);
@@ -45,6 +55,11 @@ export async function GetSingleLecturer(query: object = {}): Promise<Lecturer> {
   });
 }
 
+/**
+ * @export
+ * @param {Lecturer} LecturerData
+ * @return {*}  {Promise<Lecturer>}
+ */
 export async function CreateLecturer(
   LecturerData: Lecturer
 ): Promise<Lecturer> {
@@ -52,10 +67,21 @@ export async function CreateLecturer(
   return newClass.save().then((d) => d.toJSON());
 }
 
+/**
+ * @export
+ * @param {string} id
+ * @return {*}  {Promise<Boolean>}
+ */
 export async function DeleteLecturer(id: string): Promise<Boolean> {
   return LecturerSchemaModel.findByIdAndDelete(id).then((_) => true);
 }
 
+/**
+ * @export
+ * @param {string} id
+ * @param {Partial<Lecturer>} data
+ * @return {*}  {Promise<Lecturer>}
+ */
 export async function UpdateLecturer(
   id: string,
   data: Partial<Lecturer>
@@ -74,12 +100,24 @@ export async function UpdateLecturer(
     .then((data) => GetSingleLecturer({ _id: data?._id }));
 }
 
+/**
+ * @export
+ * @param {string} lecturerId
+ * @param {string} noteId
+ * @return {*}
+ */
 export async function AddNote(lecturerId: string, noteId: string) {
   return LecturerSchemaModel.findByIdAndUpdate(lecturerId, {
     $push: { notes: noteId },
   });
 }
 
+/**
+ * @export
+ * @param {string} lecturerId
+ * @param {string} noteId
+ * @return {*}
+ */
 export async function RemoveNote(lecturerId: string, noteId: string) {
   return LecturerSchemaModel.findByIdAndUpdate(lecturerId, {
     $pull: { notes: noteId },

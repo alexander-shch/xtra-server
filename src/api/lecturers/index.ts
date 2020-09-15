@@ -20,7 +20,6 @@ import {
 import { CreateNote, DeleteNote } from '../../db/v1/notes/controller';
 import Queries from '../../db/queries';
 import { Delete, Upload } from '../../db/v1/files/controller';
-import { UploadedFile } from 'express-fileupload';
 
 const lecturerRouter = Router();
 const scope = 'lecturer';
@@ -188,15 +187,15 @@ lecturerRouter.post(
   (req: RequestExtend, res: Response) => {
     const { lecturerId } = req.params;
     if (!isValidObjectId(lecturerId)) {
-      return BadRequest(res);
+      return BadRequest(res, 'Lecturer ID is incorrect');
     }
 
-    if (!req.files || !req.files.avatar) {
-      return res.send({
-        status: false,
-        message: 'No file uploaded',
-      });
+    const fileToUpload = req.files?.file;
+
+    if (!fileToUpload) {
+      return BadRequest(res, 'No file was provided');
     }
+
     return GetSingleLecturer(Queries.ById(lecturerId))
       .then((lecturer) => {
         if (!lecturer.avatar?._id) {
@@ -204,7 +203,7 @@ lecturerRouter.post(
         }
         return Delete(Queries.ById(lecturer.avatar._id));
       })
-      .then(() => Upload(req.files?.avatar as UploadedFile))
+      .then(() => Upload(fileToUpload))
       .then((fileUploaded) =>
         UpdateLecturer(lecturerId, { avatar: fileUploaded._id })
       )

@@ -9,7 +9,7 @@ function ByIds(data: string[]) {
 }
 
 function ById(id: string) {
-  if (isValidObjectId(id)) {
+  if (!isValidObjectId(id)) {
     throw new Error(`${id} is not a valid object id`);
   }
   const _id = Types.ObjectId(id);
