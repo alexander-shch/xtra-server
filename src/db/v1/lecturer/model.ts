@@ -4,12 +4,7 @@ import { PayDuplicator } from '../pay-duplicator/model';
 import { Address } from '../../../models';
 import { AddressSchema } from '../../schema';
 import { FileDetails } from '../files/model';
-
-interface Note {
-  user: string; //must be aggregated with actual user,
-  created: string;
-  text: string;
-}
+import { Note } from '../notes/model';
 
 interface ILecturer {
   name: string;
@@ -25,7 +20,7 @@ interface ILecturer {
   description: string;
   experience: string;
   teaching: string;
-  notes: string[] | Note[];
+  notes: string;
   files: string[];
   internalNotes: string[] | Note[];
 }
@@ -61,7 +56,7 @@ export const ILecturerSchema = new Schema<ILecturer>({
 export interface Lecturer extends ILecturer {
   _id: string;
   duplicator: PayDuplicator;
-  notes: Note[];
+  notes: string;
   internalNotes: Note[];
   avatar: FileDetails;
 }

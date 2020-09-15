@@ -1,3 +1,5 @@
+import Queries from '../../queries';
+import { Note } from '../notes/model';
 import LecturerSchemaModel, { Lecturer } from './model';
 
 /**
@@ -49,10 +51,7 @@ export async function GetAllLecturers(query: object = {}): Promise<Lecturer[]> {
  * @return {*}  {Promise<Lecturer>}
  */
 export async function GetSingleLecturer(query: object = {}): Promise<Lecturer> {
-  return GetAllLecturers(query).then((data) => {
-    console.log(data[0]);
-    return data[0];
-  });
+  return GetAllLecturers(query).then((data) => data[0]);
 }
 
 /**
@@ -150,4 +149,12 @@ export async function RemoveNote(lecturerId: string, noteId: string) {
   return LecturerSchemaModel.findByIdAndUpdate(lecturerId, {
     $pull: { internalNotes: noteId },
   });
+}
+
+export async function GetNotesByLecturerId(
+  lecturerId: string
+): Promise<Note[]> {
+  return GetSingleLecturer(Queries.ById(lecturerId)).then(
+    ({ internalNotes }) => internalNotes || []
+  );
 }

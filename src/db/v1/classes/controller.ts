@@ -55,12 +55,12 @@ export async function DeleteClass(id: string) {
   return ClassesModel.findByIdAndDelete(id).then((_) => true);
 }
 
-export async function UpdateClass(id: string, data: IClassRoom) {
+export async function UpdateClass(_id: string, data: IClassRoom) {
   return ClassesModel.findByIdAndUpdate(
-    id,
+    _id,
     { $set: data },
     { new: true, runValidators: true }
   )
     .exec()
-    .then((classData) => GetSingleClassRoom({ _id: classData?.id }));
+    .then((classData) => GetSingleClassRoom({ _id }));
 }
