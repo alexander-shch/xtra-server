@@ -35,9 +35,9 @@ lecturerRouter.get(
 
         return SuccessfulResponse(res, data);
       })
-      .catch((err) => {
-        console.error(err.errors);
-        return ServerError(res);
+      .catch(({ errors }) => {
+        console.error(errors);
+        return ServerError(res, errors);
       });
   }
 );
@@ -131,7 +131,8 @@ lecturerRouter.get(
     }
 
     return GetSingleLecturer(Queries.ById(lecturerId))
-      .then((lecturer) => lecturer?.notes || [])
+      .then((lecturer) => lecturer?.internalNotes || [])
+      .then((noteIds) => GetNotes(Queries.ByIds(noteIds as string[])))
       .then((notes) => SuccessfulResponse(res, notes))
       .catch(({ errors }) => {
         console.error(errors);
