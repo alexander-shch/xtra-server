@@ -42,7 +42,7 @@ export const ILecturerSchema = new Schema<ILecturer>({
       validator: Validators.email,
     },
   },
-  phone: { type: Number, required: true },
+  phone: { type: String, required: true },
   address: { type: AddressSchema, required: false },
   hourlyRate: { type: Number, required: true },
   duplicator: { type: Schema.Types.ObjectId, required: true },
