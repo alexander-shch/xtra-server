@@ -127,7 +127,7 @@ lecturerRouter.get(
     }
 
     return GetSingleLecturer(Queries.ById(lecturerId))
-      .then((lecturer) => lecturer?.notes || [])
+      .then((lecturer) => lecturer?.internalNotes || [])
       .then((notes) => GetNotes(Queries.ByIds(notes as string[])))
       .then((notes) => SuccessfulResponse(res, notes))
       .catch(({ errors }) => {

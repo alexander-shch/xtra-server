@@ -53,12 +53,12 @@ export async function UpdateLecturer(
 
 export async function AddNote(lecturerId: string, noteId: string) {
   return LecturerSchemaModel.findByIdAndUpdate(lecturerId, {
-    $push: { notes: noteId },
+    $push: { internalNotes: noteId },
   });
 }
 
 export async function RemoveNote(lecturerId: string, noteId: string) {
   return LecturerSchemaModel.findByIdAndUpdate(lecturerId, {
-    $pull: { notes: noteId },
+    $pull: { internalNotes: noteId },
   });
 }
