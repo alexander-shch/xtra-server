@@ -17,6 +17,7 @@ import {
   AddNote,
   RemoveNote,
   UpdateLecturerAvatar,
+  GetNotesByLecturerId,
 } from '../../db/v1/lecturer/controller';
 import { CreateNote, DeleteNote } from '../../db/v1/notes/controller';
 import Queries from '../../db/queries';
@@ -130,9 +131,7 @@ lecturerRouter.get(
       return BadRequest(res);
     }
 
-    return GetSingleLecturer(Queries.ById(lecturerId))
-      .then((lecturer) => lecturer?.internalNotes || [])
-      .then((noteIds) => GetNotes(Queries.ByIds(noteIds as string[])))
+    return GetNotesByLecturerId(lecturerId)
       .then((notes) => SuccessfulResponse(res, notes))
       .catch(({ errors }) => {
         console.error(errors);
