@@ -16,9 +16,12 @@ import {
   DeleteLecturer,
   AddNote,
   RemoveNote,
+  UpdateLecturerAvatar,
+  GetNotesByLecturerId,
 } from '../../db/v1/lecturer/controller';
-import { GetNotes, CreateNote, DeleteNote } from '../../db/v1/notes/controller';
+import { CreateNote, DeleteNote } from '../../db/v1/notes/controller';
 import Queries from '../../db/queries';
+import { Delete, Upload } from '../../db/v1/files/controller';
 
 const lecturerRouter = Router();
 const scope = 'lecturer';
@@ -29,6 +32,8 @@ lecturerRouter.get(
   async (_: RequestExtend, res: Response) => {
     return GetAllLecturers()
       .then((data) => {
+        console.log(data);
+
         return SuccessfulResponse(res, data);
       })
       .catch(({ errors }) => {
@@ -126,9 +131,7 @@ lecturerRouter.get(
       return BadRequest(res);
     }
 
-    return GetSingleLecturer(Queries.ById(lecturerId))
-      .then((lecturer) => lecturer?.internalNotes || [])
-      .then((notes) => GetNotes(Queries.ByIds(notes as string[])))
+    return GetNotesByLecturerId(lecturerId)
       .then((notes) => SuccessfulResponse(res, notes))
       .catch(({ errors }) => {
         console.error(errors);
@@ -176,6 +179,37 @@ lecturerRouter.delete(
         console.error(errors);
         return ServerError(res, errors);
       });
+  }
+);
+
+lecturerRouter.post(
+  '/:lecturerId/avatar',
+  allow(scope),
+  (req: RequestExtend, res: Response) => {
+    const { lecturerId } = req.params;
+    if (!isValidObjectId(lecturerId)) {
+      return BadRequest(res, 'Lecturer ID is incorrect');
+    }
+
+    const fileToUpload = req.files?.file;
+
+    if (!fileToUpload) {
+      return BadRequest(res, 'No file was provided');
+    }
+
+    return GetSingleLecturer(Queries.ById(lecturerId))
+      .then((lecturer) => {
+        if (!lecturer.avatar?._id) {
+          return Promise.resolve();
+        }
+        return Delete(Queries.ById(lecturer.avatar._id));
+      })
+      .then(() => Upload(fileToUpload))
+      .then((fileUploaded) =>
+        UpdateLecturerAvatar(lecturerId, fileUploaded._id)
+      )
+      .then((lecturer) => SuccessfulResponse(res, lecturer))
+      .catch((errors) => ServerError(res, errors));
   }
 );
 
