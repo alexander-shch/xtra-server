@@ -31,11 +31,7 @@ lecturerRouter.get(
   allow(scope),
   async (_: RequestExtend, res: Response) => {
     return GetAllLecturers()
-      .then((data) => {
-        console.log(data);
-
-        return SuccessfulResponse(res, data);
-      })
+      .then((data) => SuccessfulResponse(res, data))
       .catch(({ errors }) => {
         console.error(errors);
         return ServerError(res, errors);
@@ -156,7 +152,12 @@ lecturerRouter.post(
       created: new Date().toUTCString(),
       text: req.body.text,
     })
-      .then((newNote) => AddNote(lecturerId, newNote._id))
+      .then((newNote) => {
+        return AddNote(lecturerId, newNote._id).then(() =>
+          Promise.resolve(newNote)
+        );
+      })
+      .then((newNote) => SuccessfulResponse(res, newNote))
       .catch(({ errors }) => {
         console.error(errors);
         return ServerError(res, errors);
