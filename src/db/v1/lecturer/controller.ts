@@ -61,7 +61,7 @@ export async function GetAllLecturers(query: object = {}): Promise<Lecturer[]> {
         'internalNotes.user.email': 0,
         'internalNotes.__v': 0,
         'avatar.__v': 0,
-        '__v': 0,
+        __v: 0,
       },
     },
   ]).exec();
@@ -158,7 +158,7 @@ export async function UpdateLecturerAvatar(
 export async function AddNote(lecturerId: string, noteId: string) {
   return LecturerSchemaModel.findByIdAndUpdate(lecturerId, {
     $push: { internalNotes: noteId },
-  }).exec();
+  });
 }
 
 /**

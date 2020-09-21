@@ -176,6 +176,7 @@ lecturerRouter.delete(
 
     return DeleteNote(noteId)
       .then(() => RemoveNote(lecturerId, noteId))
+      .then(() => SuccessfulResponse(res, `${noteId} was deleted`))
       .catch(({ errors }) => {
         console.error(errors);
         return ServerError(res, errors);
