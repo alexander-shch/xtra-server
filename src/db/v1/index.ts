@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
-import { CreateRole, FindRole } from './permissions/controller';
+import { isEqual } from 'lodash';
+import { CreateRole, FindRole, RoleUpdateOne } from './permissions/controller';
 import { DefaultPermissionsSuperUser } from '../../settings/permissions';
 import { FindUser, CreateUser } from './user/controller';
 import { Role } from '../../models';
@@ -13,6 +14,7 @@ export default () => {
           dbName: process.env.DB_NAME,
           useUnifiedTopology: true,
           useNewUrlParser: true,
+          useFindAndModify: false,
         }
       )
       .then(() => {
@@ -51,6 +53,11 @@ async function populate() {
     if (!role) {
       role = await CreateRole({
         name: 'admin',
+        permissions: DefaultPermissionsSuperUser,
+      });
+    } else if (!isEqual(role.permissions, DefaultPermissionsSuperUser)) {
+      console.log(`Role ${role._id} update with new permissions`);
+      await RoleUpdateOne(role._id, {
         permissions: DefaultPermissionsSuperUser,
       });
     }

@@ -35,3 +35,14 @@ export async function CreateUser(user: IUser) {
   const newUser = new UserModel(user);
   return newUser.save();
 }
+
+export async function UpdateUser(id: string, user: IUser) {
+  return UserModel.findByIdAndUpdate(
+    id,
+    { $set: user },
+    {
+      runValidators: true,
+      new: true,
+    }
+  );
+}
