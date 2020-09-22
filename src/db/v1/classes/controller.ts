@@ -1,3 +1,4 @@
+import { isValidObjectId, Types } from 'mongoose';
 import ClassesModel, { ClassRoom, IClassRoom } from './model';
 
 export async function GetAllClassRooms(
@@ -56,11 +57,14 @@ export async function DeleteClass(id: string) {
 }
 
 export async function UpdateClass(id: string, data: IClassRoom) {
+  if (!isValidObjectId(id)) {
+    return Promise.reject('Not valid class ID')
+  }
   return ClassesModel.findByIdAndUpdate(
     id,
     { $set: data },
     { new: true, runValidators: true }
   )
     .exec()
-    .then((classData) => GetSingleClassRoom({ _id: classData?.id }));
+    .then(() => GetSingleClassRoom({ _id: Types.ObjectId(id) }));
 }

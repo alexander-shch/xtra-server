@@ -193,6 +193,8 @@ lecturerRouter.post(
       return BadRequest(res, 'Lecturer ID is incorrect');
     }
 
+    res.header('Access-Control-Allow-Origin', '*');
+
     const fileToUpload = req.files?.file;
 
     if (!fileToUpload) {

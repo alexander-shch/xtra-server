@@ -5,8 +5,7 @@ import appRouter from './routing';
 import mongoConnect from './db/v1';
 import expressFileUpload from 'express-fileupload';
 import path from 'path';
-
-const cors = require('cors');
+import cors from 'cors';
 
 const app = express();
 
@@ -15,7 +14,6 @@ app.use((req, res, next) =>
   express.json()(req, res, (err) => (err ? res.sendStatus(400) : next()))
 );
 app.use(cors());
-
 // All files in this directory are open and not secure (Upload only public available files)
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use(
