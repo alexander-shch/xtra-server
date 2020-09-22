@@ -22,9 +22,9 @@ export async function FindOneClassAvailability(
 
 export async function Create(
   classId: string,
-  { from, to }: { from: string; to: string }
+  { from, to, limiter = [] }: { from: string; to: string; limiter: string[] }
 ) {
-  const { error, result = [] } = CreateDateRangeAndCheck(from, to);
+  const { error, result = [] } = CreateDateRangeAndCheck(from, to, limiter);
   if (error) {
     return Promise.reject({ errors: error });
   }

@@ -33,4 +33,4 @@ UserSchema.pre<IUserDOC>('save', function (next) {
   next();
 });
 
-export default mongoose.model<IUserDOC>('User', UserSchema);
+export default mongoose.model<IUserDOC>('users', UserSchema);

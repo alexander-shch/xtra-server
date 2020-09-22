@@ -15,16 +15,27 @@ export async function GetAllLecturers(query: object = {}): Promise<Lecturer[]> {
     {
       $lookup: {
         from: 'notes',
-        localField: 'notes',
-        foreignField: '_id',
-        as: 'notes',
-      },
-    },
-    {
-      $lookup: {
-        from: 'notes',
-        localField: 'internalNotes',
-        foreignField: '_id',
+        let: { internalNotes: '$internalNotes' },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $in: ['$_id', '$$internalNotes'],
+              },
+            },
+          },
+          {
+            $lookup: {
+              from: 'users',
+              localField: 'user',
+              foreignField: '_id',
+              as: 'user',
+            },
+          },
+          {
+            $unwind: '$user',
+          },
+        ],
         as: 'internalNotes',
       },
     },
@@ -40,6 +51,17 @@ export async function GetAllLecturers(query: object = {}): Promise<Lecturer[]> {
       $unwind: {
         path: '$avatar',
         preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $project: {
+        'internalNotes.user.password': 0,
+        'internalNotes.user.role': 0,
+        'internalNotes.user.__v': 0,
+        'internalNotes.user.email': 0,
+        'internalNotes.__v': 0,
+        'avatar.__v': 0,
+        __v: 0,
       },
     },
   ]).exec();

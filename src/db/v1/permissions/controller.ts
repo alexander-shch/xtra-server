@@ -14,8 +14,6 @@ export async function FindRoles(query: Partial<IRole> = {}) {
 }
 
 export async function RoleUpdateOne(_id: string, doc: Partial<IRole>) {
-  console.log(doc);
-  
   return RoleModel.findByIdAndUpdate(
     _id,
     {
