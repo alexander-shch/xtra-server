@@ -1,4 +1,5 @@
 import { isValidObjectId, Types } from 'mongoose';
+import Queries from '../../queries';
 import ClassesModel, { ClassRoom, IClassRoom } from './model';
 
 export async function GetAllClassRooms(
@@ -66,5 +67,5 @@ export async function UpdateClass(id: string, data: IClassRoom) {
     { new: true, runValidators: true }
   )
     .exec()
-    .then(() => GetSingleClassRoom({ _id: Types.ObjectId(id) }));
+    .then(() => GetSingleClassRoom(Queries.ById(id)));
 }
