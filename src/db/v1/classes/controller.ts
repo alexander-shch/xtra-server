@@ -66,5 +66,6 @@ export async function UpdateClass(id: string, data: IClassRoom) {
     { new: true, runValidators: true }
   )
     .exec()
+    .then((classData) => GetSingleClassRoom({ _id: classData?._id }));
     .then(() => GetSingleClassRoom({ _id: Types.ObjectId(id) }));
 }
