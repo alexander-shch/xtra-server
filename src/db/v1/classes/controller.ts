@@ -1,4 +1,4 @@
-import { isValidObjectId, Types } from 'mongoose';
+import { isValidObjectId } from 'mongoose';
 import Queries from '../../queries';
 import ClassesModel, { ClassRoom, IClassRoom } from './model';
 
