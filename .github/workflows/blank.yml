@@ -28,9 +28,13 @@ jobs:
       working-directory: ${{ env.workdir-server }}
       run: npm install
 
-    - name: Run the tests and generate coverage report
+    - name: Run tsc compile
       working-directory: ${{ env.workdir-server }}
       run: npm run tsc
+
+    - name: Run the tests and generate coverage report
+      working-directory: ${{ env.workdir-server }}
+      run: npm run test
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
