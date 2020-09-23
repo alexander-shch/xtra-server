@@ -8,7 +8,7 @@ interface TimeRange {
 export function CreateDateRangeAndCheck(
   from: string,
   to: string,
-  daysLimiter: string[]
+  daysLimiter: string[] = []
 ): { error?: string; result?: TimeRange[] } {
   const fromDate = moment(from);
   const toDate = moment(to);
@@ -39,6 +39,7 @@ export function CreateDateRangeAndCheck(
   }
 
   const range = toDate.diff(fromDate, 'day');
+  const rangeMin = toDate.clone().add(range, 'days').diff(fromDate, 'minutes');
 
   const singularDefaultResult: TimeRange[] = [];
 
@@ -50,7 +51,7 @@ export function CreateDateRangeAndCheck(
     return {
       result: singularDefaultResult,
     };
-  } else if (range > 0 && daysLimiterNumbers.includes(fromDate.day())) {
+  } else if (range > 0 && !daysLimiterNumbers.includes(fromDate.day())) {
     singularDefaultResult.push({
       from: fromDate.toISOString(),
       to: toDate.clone().add(-Math.abs(range), 'days').toISOString(),
@@ -64,7 +65,7 @@ export function CreateDateRangeAndCheck(
       const currentDate = fromDate.clone().add(incrementor, 'days');
       if (
         daysLimiterNumbers.length > 0 &&
-        !daysLimiterNumbers.includes(currentDate.day())
+        daysLimiterNumbers.includes(currentDate.day())
       ) {
         return undefined;
       }
@@ -73,7 +74,7 @@ export function CreateDateRangeAndCheck(
         to:
           incrementor === arr.length
             ? toDate.toISOString()
-            : currentDate.toISOString(),
+            : currentDate.clone().add(rangeMin, 'minutes').toISOString(),
       };
     });
 
