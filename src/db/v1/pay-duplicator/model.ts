@@ -22,4 +22,4 @@ export interface PayDuplicator {
   active: boolean;
 }
 
-export default mongoose.model<IPayDuplicator>('pay', PayDuplicatorSchema);
+export default mongoose.model<IPayDuplicator>('pays', PayDuplicatorSchema);
