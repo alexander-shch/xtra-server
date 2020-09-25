@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1600851119463" clover="3.2.0">
-  <project timestamp="1600851119463" name="All files">
+<coverage generated="1601020420271" clover="3.2.0">
+  <project timestamp="1601020420271" name="All files">
     <metrics statements="31" coveredstatements="30" conditionals="24" coveredconditionals="22" methods="3" coveredmethods="3" elements="58" coveredelements="55" complexity="0" loc="31" ncloc="31" packages="1" files="1" classes="1"/>
     <file name="helper.ts" path="/Users/alexanderscherbakov/Documents/projects/xtra-server/src/db/v1/classes/availability/helper.ts">
       <metrics statements="31" coveredstatements="30" conditionals="24" coveredconditionals="22" methods="3" coveredmethods="3"/>
