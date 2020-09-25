@@ -39,7 +39,7 @@ export function CreateDateRangeAndCheck(
   }
 
   const range = toDate.diff(fromDate, 'day');
-  const rangeMin = toDate.clone().add(range, 'days').diff(fromDate, 'minutes');
+  const rangeMin = toDate.clone().add(-Math.abs(range), 'days').diff(fromDate, 'minutes');
 
   const singularDefaultResult: TimeRange[] = [];
 

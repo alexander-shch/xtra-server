@@ -1,5 +1,7 @@
-node_modules
-.metals
-.vscode
-dist
-uploads
+/node_modules
+/.metals
+/.vscode
+/dist
+/uploads
+/coverage
+/files
