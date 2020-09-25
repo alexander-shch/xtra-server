@@ -29,6 +29,7 @@ export const PermissionsSchema = new Schema<PermissionList>(
     categories: { type: PermissionSchema, required: true },
     payDuplicator: { type: PermissionSchema, required: true },
     lecturer: { type: PermissionSchema, required: true },
+    files: { type: PermissionSchema, required: true },
   },
   {
     _id: false,
