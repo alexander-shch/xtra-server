@@ -39,11 +39,14 @@ export function CreateDateRangeAndCheck(
   }
 
   const range = toDate.diff(fromDate, 'day');
-  const rangeMin = toDate.clone().add(-Math.abs(range), 'days').diff(fromDate, 'minutes');
+  const rangeMin = toDate
+    .clone()
+    .add(-Math.abs(range), 'days')
+    .diff(fromDate, 'minutes');
 
   const singularDefaultResult: TimeRange[] = [];
 
-  if (range === 0) {
+  if (range === 0 && !daysLimiterNumbers.includes(fromDate.day())) {
     singularDefaultResult.push({
       from: fromDate.toISOString(),
       to: toDate.toISOString(),

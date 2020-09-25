@@ -3,8 +3,8 @@ import moment from 'moment';
 
 describe('check helper file for availability', () => {
   test('should return range CreateDateRangeAndCheck', () => {
-    const dateFrom = moment();
-    const dateTo = moment().add(5, 'days').add(2, 'hours');
+    const dateFrom = moment('2020-09-25T17:00:28.151Z');
+    const dateTo = dateFrom.clone().add(5, 'days').add(2, 'hours');
 
     const { result, error } = CreateDateRangeAndCheck(
       dateFrom.toISOString(),
@@ -13,19 +13,16 @@ describe('check helper file for availability', () => {
 
     const [firstDate, ...dates] = result || [];
 
-    console.log(result);
-    
-
     expect(error).toBeUndefined();
     expect(result?.length).toBe(6);
     expect(firstDate?.from).toBe(dateFrom.toISOString());
-    expect(firstDate?.to).toBe(dateFrom.clone().add(2, 'hours').toISOString());
+    expect(firstDate?.to).toBe(dateFrom.add(2, 'hours').toISOString());
     expect(dates.pop()?.to).toBe(dateTo.toISOString());
   });
 
   test('should skip 2nd day of the week CreateDateRangeAndCheck', () => {
-    const dateFrom = moment();
-    const dateTo = moment().add(5, 'days').add(2, 'hours');
+    const dateFrom = moment('2020-09-25T17:00:28.151Z');
+    const dateTo = dateFrom.clone().add(5, 'days').add(2, 'hours');
 
     const { result, error } = CreateDateRangeAndCheck(
       dateFrom.toISOString(),
@@ -41,10 +38,13 @@ describe('check helper file for availability', () => {
     const dateFrom = 'asdasd';
     const dateTo = moment().add(5, 'days').add(2, 'hours');
 
-    const { error } = CreateDateRangeAndCheck(dateFrom, dateTo.toISOString(), [
-      '1',
-    ]);
+    const { error, result } = CreateDateRangeAndCheck(
+      dateFrom,
+      dateTo.toISOString(),
+      ['1']
+    );
 
+    expect(result).toBeUndefined();
     expect(error).toBeDefined();
     expect(error).toBe(`From date "${dateFrom}" is not a valid date`);
   });
@@ -87,5 +87,21 @@ describe('check helper file for availability', () => {
 
     expect(error).toBeUndefined();
     expect(result?.length).toBe(1);
+  });
+
+  test('should fail to return range as limiter is set to skip the only date', () => {
+    const dateFrom = moment('2020-09-25T17:00:28.151Z');
+    const dateTo = dateFrom.clone().add(45, 'minutes').toISOString();
+
+    const { result, error } = CreateDateRangeAndCheck(
+      dateFrom.toISOString(),
+      dateTo,
+      ['5']
+    );
+
+    expect(result).toBeUndefined();
+    expect(error).toBe(
+      'After calculation there are no availability to create, please double check the input dates and days limiter'
+    );
   });
 });
