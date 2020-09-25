@@ -7,6 +7,7 @@ import buildingsRouter from './api/buildings';
 import classesRouter from './api/classes';
 import categoriesRouter from './api/categories';
 import payDuplicatorRouter from './api/pay-duplicator';
+import filesRouter from './api/files';
 import lecturerRouter from './api/lecturers';
 
 const appRouter = Router();
@@ -19,5 +20,6 @@ appRouter.use('/classes', classesRouter);
 appRouter.use('/categories', categoriesRouter);
 appRouter.use('/pay-duplicator', payDuplicatorRouter);
 appRouter.use('/lecturer', lecturerRouter);
+appRouter.use('/files', filesRouter);
 
 export default appRouter;

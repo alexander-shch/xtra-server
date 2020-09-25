@@ -18,6 +18,8 @@ import {
   RemoveNote,
   UpdateLecturerAvatar,
   GetNotesByLecturerId,
+  PushLecturerFiles,
+  PullLecturerFiles,
 } from '../../db/v1/lecturer/controller';
 import { CreateNote, DeleteNote } from '../../db/v1/notes/controller';
 import Queries from '../../db/queries';
@@ -193,8 +195,6 @@ lecturerRouter.post(
       return BadRequest(res, 'Lecturer ID is incorrect');
     }
 
-    res.header('Access-Control-Allow-Origin', '*');
-
     const fileToUpload = req.files?.file;
 
     if (!fileToUpload) {
@@ -206,13 +206,59 @@ lecturerRouter.post(
         if (!lecturer.avatar?._id) {
           return Promise.resolve();
         }
-        return Delete(Queries.ById(lecturer.avatar._id));
+        return Delete(Queries.ById(lecturer.avatar._id), false);
       })
-      .then(() => Upload(fileToUpload))
+      .then(() => Upload(fileToUpload, false))
       .then((fileUploaded) =>
         UpdateLecturerAvatar(lecturerId, fileUploaded._id)
       )
       .then((lecturer) => SuccessfulResponse(res, lecturer))
+      .catch((errors) => ServerError(res, errors));
+  }
+);
+
+lecturerRouter.post(
+  '/:lecturerId/file',
+  allow(scope),
+  allow('files'),
+  (req: RequestExtend, res: Response) => {
+    const { lecturerId } = req.params;
+    if (!isValidObjectId(lecturerId)) {
+      return BadRequest(res, 'Lecturer ID is incorrect');
+    }
+
+    const fileToUpload = req.files?.file;
+
+    if (!fileToUpload) {
+      return BadRequest(res, 'No file was provided');
+    }
+
+    return GetSingleLecturer(Queries.ById(lecturerId))
+      .then(() => Upload(fileToUpload, true))
+      .then((fileUploaded) => PushLecturerFiles(lecturerId, fileUploaded._id))
+      .then((lecturer) => SuccessfulResponse(res, lecturer || {}))
+      .catch((errors) => ServerError(res, errors));
+  }
+);
+
+lecturerRouter.delete(
+  '/:lecturerId/file/:fileId',
+  allow(scope),
+  allow('files'),
+  (req: RequestExtend, res: Response) => {
+    const { lecturerId, fileId } = req.params;
+    if (!isValidObjectId(lecturerId)) {
+      return BadRequest(res, 'Lecturer ID is incorrect');
+    }
+
+    if (!isValidObjectId(fileId)) {
+      return BadRequest(res, 'File ID is incorrect');
+    }
+
+    return GetSingleLecturer(Queries.ById(lecturerId))
+      .then(() => Delete(Queries.ById(fileId), true))
+      .then(() => PullLecturerFiles(lecturerId, fileId))
+      .then((lecturer) => SuccessfulResponse(res, lecturer || {}))
       .catch((errors) => ServerError(res, errors));
   }
 );

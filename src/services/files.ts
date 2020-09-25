@@ -3,7 +3,7 @@ import { existsSync, unlink } from 'fs';
 import { UploadedFile } from 'express-fileupload';
 import { IFileDetails } from '../db/v1/files/model';
 
-function getPath(secure: boolean = false) {
+export function getPath(secure: boolean = false) {
   const securePath = 'files';
   const publicPath = 'uploads';
   return secure ? securePath : publicPath;

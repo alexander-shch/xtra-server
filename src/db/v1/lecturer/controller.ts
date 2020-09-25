@@ -54,11 +54,35 @@ export async function GetAllLecturers(query: object = {}): Promise<Lecturer[]> {
       },
     },
     {
+      $lookup: {
+        from: 'files',
+        localField: 'files',
+        foreignField: '_id',
+        as: 'files',
+      },
+    },
+    {
+      $lookup: {
+        from: 'pays',
+        localField: 'duplicator',
+        foreignField: '_id',
+        as: 'duplicator',
+      },
+    },
+    {
+      $unwind: {
+        path: '$duplicator',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
       $project: {
         'internalNotes.user.password': 0,
         'internalNotes.user.role': 0,
         'internalNotes.user.__v': 0,
         'internalNotes.user.email': 0,
+        'files.secure': 0,
+        'files.__v': 0,
         'internalNotes.__v': 0,
         'avatar.__v': 0,
         __v: 0,
@@ -73,7 +97,12 @@ export async function GetAllLecturers(query: object = {}): Promise<Lecturer[]> {
  * @return {*}  {Promise<Lecturer>}
  */
 export async function GetSingleLecturer(query: object = {}): Promise<Lecturer> {
-  return GetAllLecturers(query).then((data) => data[0]);
+  return GetAllLecturers(query).then((data) => {
+    if (data.length === 0) {
+      return Promise.reject({ errors: 'Lecturer not found' });
+    }
+    return data[0];
+  });
 }
 
 /**
@@ -179,4 +208,24 @@ export async function GetNotesByLecturerId(
   return GetSingleLecturer(Queries.ById(lecturerId)).then(
     ({ internalNotes }) => internalNotes || []
   );
+}
+
+export async function PushLecturerFiles(lecturerId: string, noteId: string) {
+  return LecturerSchemaModel.findByIdAndUpdate(
+    lecturerId,
+    {
+      $push: { files: noteId },
+    },
+    { new: true }
+  ).then((lecturer) => GetSingleLecturer(Queries.ById(lecturer?._id)));
+}
+
+export async function PullLecturerFiles(lecturerId: string, noteId: string) {
+  return LecturerSchemaModel.findByIdAndUpdate(
+    lecturerId,
+    {
+      $pull: { files: noteId },
+    },
+    { new: true }
+  ).then((lecturer) => GetSingleLecturer(Queries.ById(lecturer?._id)));
 }

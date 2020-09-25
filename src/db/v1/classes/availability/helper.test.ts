@@ -13,6 +13,9 @@ describe('check helper file for availability', () => {
 
     const [firstDate, ...dates] = result || [];
 
+    console.log(result);
+    
+
     expect(error).toBeUndefined();
     expect(result?.length).toBe(6);
     expect(firstDate?.from).toBe(dateFrom.toISOString());
