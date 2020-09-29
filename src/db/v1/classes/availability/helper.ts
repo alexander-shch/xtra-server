@@ -54,7 +54,7 @@ export function CreateDateRangeAndCheck(
     return {
       result: singularDefaultResult,
     };
-  } else if (range > 0 && !daysLimiterNumbers.includes(fromDate.day())) {
+  } else if (range > 0 && daysLimiterNumbers.includes(fromDate.day())) {
     singularDefaultResult.push({
       from: fromDate.toISOString(),
       to: toDate.clone().add(-Math.abs(range), 'days').toISOString(),
@@ -68,7 +68,7 @@ export function CreateDateRangeAndCheck(
       const currentDate = fromDate.clone().add(incrementor, 'days');
       if (
         daysLimiterNumbers.length > 0 &&
-        daysLimiterNumbers.includes(currentDate.day())
+        !daysLimiterNumbers.includes(currentDate.day())
       ) {
         return undefined;
       }

@@ -3,7 +3,7 @@ import moment from 'moment';
 
 describe('check helper file for availability', () => {
   test('should return range CreateDateRangeAndCheck', () => {
-    const dateFrom = moment('2020-09-25T17:00:28.151Z');
+    const dateFrom = moment('2020-09-25T17:30:00.000Z');
     const dateTo = dateFrom.clone().add(5, 'days').add(2, 'hours');
 
     const { result, error } = CreateDateRangeAndCheck(
@@ -21,7 +21,7 @@ describe('check helper file for availability', () => {
   });
 
   test('should skip 2nd day of the week CreateDateRangeAndCheck', () => {
-    const dateFrom = moment('2020-09-25T17:00:28.151Z');
+    const dateFrom = moment('2020-09-25T17:30:00.000Z');
     const dateTo = dateFrom.clone().add(5, 'days').add(2, 'hours');
 
     const { result, error } = CreateDateRangeAndCheck(
@@ -90,7 +90,7 @@ describe('check helper file for availability', () => {
   });
 
   test('should fail to return range as limiter is set to skip the only date', () => {
-    const dateFrom = moment('2020-09-25T17:00:28.151Z');
+    const dateFrom = moment('2020-09-25T17:30:00.000Z');
     const dateTo = dateFrom.clone().add(45, 'minutes').toISOString();
 
     const { result, error } = CreateDateRangeAndCheck(
