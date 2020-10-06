@@ -14,6 +14,10 @@ export function CreateDateRangeAndCheck(
   const toDate = moment(to);
   const daysLimiterNumbers = daysLimiter.map(Number);
 
+  const limiterIncludes = (day: number) => {
+    return daysLimiterNumbers.length === 0 || daysLimiterNumbers.includes(day);
+  };
+
   if (!fromDate.isValid()) {
     return {
       error: `From date "${from}" is not a valid date`,
@@ -46,7 +50,7 @@ export function CreateDateRangeAndCheck(
 
   const singularDefaultResult: TimeRange[] = [];
 
-  if (range === 0 && !daysLimiterNumbers.includes(fromDate.day())) {
+  if (range === 0 && limiterIncludes(fromDate.day())) {
     singularDefaultResult.push({
       from: fromDate.toISOString(),
       to: toDate.toISOString(),
@@ -54,7 +58,7 @@ export function CreateDateRangeAndCheck(
     return {
       result: singularDefaultResult,
     };
-  } else if (range > 0 && daysLimiterNumbers.includes(fromDate.day())) {
+  } else if (range > 0 && limiterIncludes(fromDate.day())) {
     singularDefaultResult.push({
       from: fromDate.toISOString(),
       to: toDate.clone().add(-Math.abs(range), 'days').toISOString(),
@@ -68,7 +72,7 @@ export function CreateDateRangeAndCheck(
       const currentDate = fromDate.clone().add(incrementor, 'days');
       if (
         daysLimiterNumbers.length > 0 &&
-        !daysLimiterNumbers.includes(currentDate.day())
+        !limiterIncludes(currentDate.day())
       ) {
         return undefined;
       }

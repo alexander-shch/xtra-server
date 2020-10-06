@@ -6,17 +6,17 @@ describe('check helper file for availability', () => {
     const dateFrom = moment('2020-09-25T17:30:00.000Z');
     const dateTo = dateFrom.clone().add(5, 'days').add(2, 'hours');
 
-    const { result, error } = CreateDateRangeAndCheck(
-      dateFrom.toISOString(),
-      dateTo.toISOString()
-    );
+    const dateFromISO = dateFrom.toISOString();
+    const dateToISO = dateTo.toISOString();
+
+    const { result, error } = CreateDateRangeAndCheck(dateFromISO, dateToISO);
 
     const [firstDate, ...dates] = result || [];
 
     expect(error).toBeUndefined();
     expect(result?.length).toBe(6);
-    expect(firstDate?.from).toBe(dateFrom.toISOString());
-    expect(firstDate?.to).toBe(dateFrom.add(2, 'hours').toISOString());
+    expect(firstDate?.from).toBe(dateFromISO);
+    expect(firstDate?.to).toBe(dateFrom.clone().add(2, 'hours').toISOString());
     expect(dates.pop()?.to).toBe(dateTo.toISOString());
   });
 
@@ -31,7 +31,7 @@ describe('check helper file for availability', () => {
     );
 
     expect(error).toBeUndefined();
-    expect(result?.length).toBe(5);
+    expect(result?.length).toBe(1);
   });
 
   test('should fail on 1st date', () => {
@@ -83,20 +83,22 @@ describe('check helper file for availability', () => {
     const dateFrom = moment().toISOString();
     const dateTo = moment().add(45, 'minutes').toISOString();
 
-    const { result, error } = CreateDateRangeAndCheck(dateFrom, dateTo);
+    const { result = [], error } = CreateDateRangeAndCheck(dateFrom, dateTo);
 
     expect(error).toBeUndefined();
     expect(result?.length).toBe(1);
+    expect(result[0].from).toBe(dateFrom);
+    expect(result[0].to).toBe(dateTo);
   });
 
-  test('should fail to return range as limiter is set to skip the only date', () => {
+  test('should fail to return range as limiter is set to allow a different day of the week', () => {
     const dateFrom = moment('2020-09-25T17:30:00.000Z');
     const dateTo = dateFrom.clone().add(45, 'minutes').toISOString();
 
     const { result, error } = CreateDateRangeAndCheck(
       dateFrom.toISOString(),
       dateTo,
-      ['5']
+      ['4']
     );
 
     expect(result).toBeUndefined();
