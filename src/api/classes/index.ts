@@ -22,6 +22,7 @@ import {
   FindOneClassAvailability,
   DeleteAvailability,
 } from '../../db/v1/classes/availability/controller';
+import Queries from '../../db/queries';
 
 const classesRouter = Router();
 const scope = 'classes';
@@ -49,7 +50,7 @@ classesRouter.get(
       return BadRequest(res);
     }
 
-    return GetSingleClassRoom({ _id: classId })
+    return GetSingleClassRoom(Queries.ById(classId))
       .then((data) => {
         if (!data) {
           return NotFound(res);

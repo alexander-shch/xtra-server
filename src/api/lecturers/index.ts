@@ -42,15 +42,15 @@ lecturerRouter.get(
 );
 
 lecturerRouter.get(
-  '/:id',
+  '/:lectureId',
   allow(scope),
   async (req: RequestExtend, res: Response) => {
-    const { id } = req.params;
-    if (!isValidObjectId(id)) {
+    const { lectureId } = req.params;
+    if (!isValidObjectId(lectureId)) {
       return BadRequest(res);
     }
 
-    return GetSingleLecturer({ _id: id })
+    return GetSingleLecturer(Queries.ById(lectureId))
       .then((data) => {
         if (!data) {
           return NotFound(res);
@@ -80,14 +80,14 @@ lecturerRouter.post(
 );
 
 lecturerRouter.put(
-  '/:id',
+  '/:lectureId',
   allow(scope),
   (req: RequestExtend, res: Response) => {
-    const { id } = req.params;
-    if (!isValidObjectId(id)) {
+    const { lectureId } = req.params;
+    if (!isValidObjectId(lectureId)) {
       return BadRequest(res);
     }
-    return UpdateLecturer(id, req.body)
+    return UpdateLecturer(lectureId, req.body)
       .then((data) => {
         if (!data) {
           return NotFound(res);
@@ -102,14 +102,14 @@ lecturerRouter.put(
 );
 
 lecturerRouter.delete(
-  '/:id',
+  '/:lectureId',
   allow(scope),
   (req: RequestExtend, res: Response) => {
-    const { id } = req.params;
-    if (!isValidObjectId(id)) {
+    const { lectureId } = req.params;
+    if (!isValidObjectId(lectureId)) {
       return BadRequest(res);
     }
-    return DeleteLecturer(id)
+    return DeleteLecturer(lectureId)
       .then((deleted) => {
         return SuccessfulResponse(res, { deleted });
       })
