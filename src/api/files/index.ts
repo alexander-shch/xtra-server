@@ -3,7 +3,7 @@ import { PermissionsScope } from '../../models';
 import allow from '../../helper/user-permission';
 import { RequestExtend } from '../../auth';
 import { isValidObjectId } from 'mongoose';
-import { GetFileById } from '../../db/v1/models/files/controller';
+import { GetFileById } from '../../db/v1/files/controller';
 import { ServerError } from '../../helper/http';
 import path from 'path';
 import { getPath } from '../../services/files';

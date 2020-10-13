@@ -20,10 +20,10 @@ import {
   GetNotesByLecturerId,
   PushLecturerFiles,
   PullLecturerFiles,
-} from '../../db/v1/models/lecturer/controller';
-import { CreateNote, DeleteNote } from '../../db/v1/models/notes/controller';
+} from '../../db/v1/lecturer/controller';
+import { CreateNote, DeleteNote } from '../../db/v1/notes/controller';
 import Queries from '../../db/queries';
-import { Delete, Upload } from '../../db/v1/models/files/controller';
+import { Delete, Upload } from '../../db/v1/files/controller';
 
 const lecturerRouter = Router();
 const scope = 'lecturer';

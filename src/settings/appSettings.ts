@@ -1,4 +1,4 @@
-import { ISetting } from '../db/v1/models/settings/model';
+import { ISetting } from '../db/v1/settings/model';
 
 const VAT: ISetting = {
   name: 'VAT',

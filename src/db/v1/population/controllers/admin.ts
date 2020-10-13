@@ -5,8 +5,8 @@ import {
   CreateRole,
   FindRole,
   RoleUpdateOne,
-} from '../../models/permissions/controller';
-import { CreateUser, FindUser } from '../../models/user/controller';
+} from '../../permissions/controller';
+import { CreateUser, FindUser } from '../../user/controller';
 
 function createAdminUser(role: Role) {
   return FindUser({ name: 'admin' }).then((user) => {

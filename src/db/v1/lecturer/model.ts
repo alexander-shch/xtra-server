@@ -1,8 +1,8 @@
 import mongoose, { Schema, Document } from 'mongoose';
-import { Validators } from '../../../validators';
+import { Validators } from '../../validators';
 import { PayDuplicator } from '../pay-duplicator/model';
-import { Address } from '../../../../models';
-import { AddressSchema } from '../../../schema';
+import { Address } from '../../../models';
+import { AddressSchema } from '../../schema';
 import { FileDetails } from '../files/model';
 import { Note } from '../notes/model';
 

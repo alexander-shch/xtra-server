@@ -14,7 +14,7 @@ import {
   CreateCategory,
   UpdateCategory,
   DeleteCategory,
-} from '../../db/v1/models/categories/controller';
+} from '../../db/v1/categories/controller';
 
 const categoriesRouter = Router();
 const scope = 'categories';

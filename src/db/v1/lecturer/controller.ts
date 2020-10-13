@@ -1,4 +1,4 @@
-import Queries from '../../../queries';
+import Queries from '../../queries';
 import { Note } from '../notes/model';
 import LecturerSchemaModel, { Lecturer } from './model';
 
