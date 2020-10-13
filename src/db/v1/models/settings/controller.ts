@@ -1,20 +1,24 @@
 import Queries from '../../../queries';
 import SettingsModel, { ISetting } from './model';
 
-export function CreateSetting(settingData: ISetting) {
+export function createSetting(settingData: ISetting) {
   const newDoc = new SettingsModel(settingData);
   return newDoc.save();
 }
 
-export function CreateSettingMany(settingsDataList: ISetting[]) {
+export function createSettingMany(settingsDataList: ISetting[]) {
   return SettingsModel.insertMany(settingsDataList);
 }
 
-export function DeleteSettingById(settingId: string) {
+export function deleteSettingById(settingId: string) {
   return SettingsModel.findOneAndDelete(Queries.ById(settingId));
 }
 
-export function UpdateSetting(settingId: string, data: ISetting) {
+export function findSettings(query: object) {
+  return SettingsModel.find(query);
+}
+
+export function updateSetting(settingId: string, data: ISetting) {
   return SettingsModel.findOneAndUpdate(
     Queries.ById(settingId),
     {
