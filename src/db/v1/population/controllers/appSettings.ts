@@ -11,7 +11,7 @@ export async function populateAppSettings(): Promise<void> {
   // If no setting were found we populate them all
   if (queryResults.length === 0) {
     console.log(
-      `Populated ${queryResults.length} new settings "${queryResults
+      `Populated ${settingsList.length} new settings "${settingsList
         .map(({ name }) => name)
         .join()}"`
     );
