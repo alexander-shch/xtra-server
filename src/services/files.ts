@@ -1,7 +1,7 @@
 import path from 'path';
 import { existsSync, unlink } from 'fs';
 import { UploadedFile } from 'express-fileupload';
-import { IFileDetails } from '../db/v1/files/model';
+import { IFileDetails } from '../db/v1/models/files/model';
 
 export function getPath(secure: boolean = false) {
   const securePath = 'files';

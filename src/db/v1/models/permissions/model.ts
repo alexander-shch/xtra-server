@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose';
-import { PermissionList, PermissionTable } from '../../../models';
+import { PermissionList, PermissionTable } from '../../../../models';
 
 export interface IRole {
   name: string;

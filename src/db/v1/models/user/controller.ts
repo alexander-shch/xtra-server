@@ -1,5 +1,5 @@
 import UserModel, { IUser } from './model';
-import { User } from '../../../models';
+import { User } from '../../../../models';
 
 export async function FindUser(queryObject: Partial<IUser>) {
   return UserModel.findOne(queryObject).select('-password');

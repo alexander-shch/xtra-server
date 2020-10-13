@@ -2,7 +2,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import { sign, verify } from 'jsonwebtoken';
 import { createHash } from 'crypto';
 import { User } from '../models';
-import { FindUserFull } from '../db/v1/user/controller';
+import { FindUserFull } from '../db/v1/models/user/controller';
 
 export type RequestExtend<T = any> = Request & {
   user?: User;

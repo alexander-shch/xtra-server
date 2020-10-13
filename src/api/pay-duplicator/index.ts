@@ -14,7 +14,7 @@ import {
   CreatePayDuplicator,
   UpdatePayDuplicator,
   DeletePayDuplicator,
-} from '../../db/v1/pay-duplicator/controller';
+} from '../../db/v1/models/pay-duplicator/controller';
 
 const payDuplicatorRouter = Router();
 const scope = 'payDuplicator';

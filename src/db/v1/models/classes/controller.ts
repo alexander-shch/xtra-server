@@ -1,5 +1,5 @@
 import { isValidObjectId } from 'mongoose';
-import Queries from '../../queries';
+import Queries from '../../../queries';
 import ClassesModel, { ClassRoom, IClassRoom } from './model';
 
 export async function GetAllClassRooms(

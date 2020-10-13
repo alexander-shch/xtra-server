@@ -1,4 +1,4 @@
-import Queries from '../../queries';
+import Queries from '../../../queries';
 import SettingsModel, { ISetting } from './model';
 
 export function CreateSetting(settingData: ISetting) {

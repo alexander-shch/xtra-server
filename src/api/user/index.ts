@@ -1,7 +1,7 @@
 import { Router, Response } from 'express';
 import { RequestExtend } from '../../auth';
 import allow from '../../helper/user-permission';
-import { CreateUser, FindUserFull } from '../../db/v1/user/controller';
+import { CreateUser, FindUserFull } from '../../db/v1/models/user/controller';
 import { isValidObjectId } from 'mongoose';
 
 const userRouter = Router();
