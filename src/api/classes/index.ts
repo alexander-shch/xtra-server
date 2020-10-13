@@ -14,14 +14,14 @@ import {
   DeleteClass,
   UpdateClass,
   GetSingleClassRoom,
-} from '../../db/v1/classes/controller';
+} from '../../db/v1/models/classes/controller';
 import {
   Create,
   GetAllClassAvailability,
   UpdateAvailability,
   FindOneClassAvailability,
   DeleteAvailability,
-} from '../../db/v1/classes/availability/controller';
+} from '../../db/v1/models/classes/availability/controller';
 import Queries from '../../db/queries';
 
 const classesRouter = Router();

@@ -1,7 +1,7 @@
 import { UploadedFile } from 'express-fileupload';
 import FileModelSchema, { FileDetails } from './model';
-import { deleteFile, moveFile } from '../../../services/files';
-import Queries from '../../queries';
+import { deleteFile, moveFile } from '../../../../services/files';
+import Queries from '../../../queries';
 
 export async function Upload(file: UploadedFile, secure: boolean) {
   return moveFile(file, secure)

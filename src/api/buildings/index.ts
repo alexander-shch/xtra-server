@@ -9,7 +9,7 @@ import {
   CreateBuildingRecord,
   DeleteBuildingRecord,
   FindAndUpdate,
-} from '../../db/v1/buildings/controller';
+} from '../../db/v1/models/buildings/controller';
 
 const buildingsRouter = Router();
 const scope = 'buildings';

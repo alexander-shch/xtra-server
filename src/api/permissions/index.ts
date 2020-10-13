@@ -6,7 +6,7 @@ import {
   FindRoles,
   FindRole,
   RoleUpdateOne,
-} from '../../db/v1/permissions/controller';
+} from '../../db/v1/models/permissions/controller';
 import { isValidObjectId, Types } from 'mongoose';
 
 const permissionsRouter = Router();
