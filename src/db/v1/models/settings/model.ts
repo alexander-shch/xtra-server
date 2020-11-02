@@ -2,8 +2,8 @@ import { Document, model, Schema } from 'mongoose';
 
 export interface ISetting {
   name: string;
-  description: string;
-  value: string;
+  description?: string;
+  value?: string;
 }
 
 type ISettingDOC = ISetting & Document;
