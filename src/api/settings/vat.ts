@@ -29,16 +29,16 @@ vatRouter.post('/', allowPath, async (req: RequestExtend, res: Response) => {
   return findSingleSettings({ name: settings.VAT.name })
     .then((vatValue) => {
       if (!vatValue) {
-        throw new Error('Not found');
+        return NotFound(res);
       }
-      return updateSetting(vatValue._id, { name: 'VAT', value });
-    })
-    .catch(() => NotFound(res))
-    .then((updatedValue) => {
-      if (updatedValue) {
-        return SuccessfulResponse(res, updatedValue);
-      }
-      return Promise.reject({ errors: 'Entry could not be updated' });
+      return updateSetting(vatValue._id, { name: 'VAT', value }).then(
+        (updatedValue) => {
+          if (updatedValue) {
+            return SuccessfulResponse(res, updatedValue);
+          }
+          return Promise.reject({ errors: 'Entry could not be updated' });
+        }
+      );
     })
     .catch(({ errors }) => ServerError(res, errors));
 });
