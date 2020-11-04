@@ -18,6 +18,10 @@ export function findSettings(query: object) {
   return SettingsModel.find(query);
 }
 
+export function findSingleSettings(query: object) {
+  return SettingsModel.findOne(query);
+}
+
 export function updateSetting(settingId: string, data: ISetting) {
   return SettingsModel.findOneAndUpdate(
     Queries.ById(settingId),
