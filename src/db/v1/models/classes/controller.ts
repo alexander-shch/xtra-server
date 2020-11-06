@@ -18,7 +18,7 @@ export async function GetAllClassRooms(
       },
     },
     {
-      $unwind: '$building',
+      $unwind: { path: '$building', preserveNullAndEmptyArrays: true },
     },
     {
       $lookup: {
@@ -59,7 +59,7 @@ export async function DeleteClass(id: string) {
 
 export async function UpdateClass(id: string, data: IClassRoom) {
   if (!isValidObjectId(id)) {
-    return Promise.reject('Not valid class ID')
+    return Promise.reject('Not valid class ID');
   }
   return ClassesModel.findByIdAndUpdate(
     id,
