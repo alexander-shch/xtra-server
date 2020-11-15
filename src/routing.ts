@@ -10,6 +10,7 @@ import payDuplicatorRouter from './api/pay-duplicator';
 import filesRouter from './api/files';
 import lecturerRouter from './api/lecturers';
 import settingsRouter from './api/settings';
+import SemesterRouter from './api/semester';
 
 const appRouter = Router();
 
@@ -23,5 +24,6 @@ appRouter.use('/pay-duplicator', payDuplicatorRouter);
 appRouter.use('/lecturer', lecturerRouter);
 appRouter.use('/files', filesRouter);
 appRouter.use('/settings', settingsRouter);
+appRouter.use('/semesters', SemesterRouter);
 
 export default appRouter;
