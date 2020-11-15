@@ -9,7 +9,7 @@ export interface IBuildingDOC extends IBuilding, Document {}
 
 
 export const BuildingSchema = new Schema<IBuildingDOC>({
-  name: { type: String, required: true },
+  name: { type: String, required: true, unique: true },
   active: { type: Boolean, required: true },
 });
 

@@ -8,7 +8,7 @@ interface IPayDuplicator extends Document {
 }
 
 export const PayDuplicatorSchema = new Schema<IPayDuplicator>({
-  title: { type: String, required: true },
+  title: { type: String, required: true, unique: true },
   duplicate: { type: Number, required: true },
   vat: { type: Boolean, required: true },
   active: { type: Boolean, required: false, default: true },
