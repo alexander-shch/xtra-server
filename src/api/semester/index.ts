@@ -12,7 +12,7 @@ import {
 import { BadRequest, ServerError, SuccessfulResponse } from '../../helper/http';
 import allow from '../../helper/user-permission';
 
-const scope = 'semester';
+const scope = 'semesters';
 const SemesterRouter = Router();
 SemesterRouter.use(allow(scope));
 

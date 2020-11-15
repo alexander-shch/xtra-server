@@ -9,7 +9,7 @@ export type PermissionsScope =
   | 'lecturer'
   | 'files'
   | 'settings'
-  | 'semester';
+  | 'semesters';
 export type PermissionTable = Record<PermissionOptions, boolean>;
 export type PermissionList = Record<PermissionsScope, PermissionTable>;
 export interface Role {
