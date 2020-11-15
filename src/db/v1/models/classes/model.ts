@@ -11,7 +11,7 @@ export interface IClassRoom extends Document {
 
 export const ClassesSchema = new Schema<IClassRoom>({
   building: { type: Schema.Types.ObjectId, required: true },
-  name: { type: String, required: false, default: '' },
+  name: { type: String, required: true, unique: true },
   minStudents: { type: Number, required: false, default: 1 },
   maxStudents: { type: Number, required: true },
 });
