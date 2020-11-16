@@ -20,8 +20,12 @@ export async function DeletePayDuplicator(id: string) {
 }
 
 export async function UpdatePayDuplicator(id: string, data: PayDuplicator) {
-  return PayDuplicatorSchemaModel.findByIdAndUpdate(id, data, {
-    new: true,
-    runValidators: true,
-  }).exec();
+  return PayDuplicatorSchemaModel.findByIdAndUpdate(
+    id,
+    { $set: data },
+    {
+      new: true,
+      runValidators: true,
+    }
+  ).exec();
 }
