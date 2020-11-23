@@ -11,6 +11,7 @@ import filesRouter from './api/files';
 import lecturerRouter from './api/lecturers';
 import settingsRouter from './api/settings';
 import SemesterRouter from './api/semester';
+import coursesRouter from './api/courses';
 
 const appRouter = Router();
 
@@ -25,5 +26,6 @@ appRouter.use('/lecturer', lecturerRouter);
 appRouter.use('/files', filesRouter);
 appRouter.use('/settings', settingsRouter);
 appRouter.use('/semesters', SemesterRouter);
+appRouter.use('/courses', coursesRouter);
 
 export default appRouter;

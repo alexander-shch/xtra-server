@@ -23,5 +23,6 @@ export function createPermissionsList(allow: boolean): PermissionList {
     files: createPermissionTableWithStatus(allow),
     settings: createPermissionTableWithStatus(allow),
     semesters: createPermissionTableWithStatus(allow),
+    courses: createPermissionTableWithStatus(allow),
   };
 }
