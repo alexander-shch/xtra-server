@@ -37,7 +37,6 @@ export const TitlesForWebsite = new Schema<TitlesForWebsite>(
     target: { type: String, required: false, default: '' },
     requirements: { type: String, required: false, default: '' },
     progress: { type: String, required: false, default: '' },
-    marketing: { type: String, required: false, default: '' },
     meetingsCount: { type: String, required: false, default: '' },
     meetingLength: { type: String, required: false, default: '' },
   },
@@ -48,7 +47,7 @@ export const TitlesForWebsite = new Schema<TitlesForWebsite>(
 
 export const CourseSchema = new Schema<ICourse>({
   title: { type: String, required: true },
-  category: { type: Schema.Types.ObjectId, required: false },
+  category: { type: Schema.Types.ObjectId, required: true },
   active: { type: Boolean, required: false, default: true },
   target: { type: String, required: false, default: '' },
   requirements: { type: String, required: false, default: '' },
@@ -56,12 +55,17 @@ export const CourseSchema = new Schema<ICourse>({
   marketing: { type: String, required: false, default: '' },
   meetingsCount: { type: Number, required: false, default: 0 },
   meetingLength: { type: Number, required: false, default: 0 },
-  minStudents: { type: Number, required: false, default: 1 },
-  maxStudents: { type: Number, required: false, default: 1 },
+  minStudents: { type: Number, required: false, default: 1, min: 1 },
+  maxStudents: { type: Number, required: false, default: 1, min: 1 },
   extTitles: { type: TitlesForWebsite, required: false, default: {} },
   assignToClassComments: { type: String, required: false, default: '' },
   schedulingComments: { type: String, required: false, default: '' },
-  coupons: { type: Schema.Types.ObjectId, required: false },
+  coupons: { type: [Schema.Types.ObjectId], required: false, default: [] },
+  assignedLecturers: {
+    type: [Schema.Types.ObjectId],
+    required: false,
+    default: [],
+  },
 });
 
 export interface Course extends ICourse {
