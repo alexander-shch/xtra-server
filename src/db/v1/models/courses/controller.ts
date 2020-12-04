@@ -1,7 +1,28 @@
 import CourseModel, { Course, ICourse } from './model';
 
-export async function GetAllCourses(query: object = {}): Promise<Course[]> {
-  return CourseModel.find(query);
+export async function GetMultipleCourses(
+  query: object = {},
+  limit: number = 999
+): Promise<Course[]> {
+  if (limit) {
+  }
+  return CourseModel.aggregate<Course[]>([
+    {
+      $match: query,
+    },
+    {
+      $lookup: {
+        from: 'lecturers',
+        localField: 'assignedLecturers',
+        foreignField: '_id',
+        as: 'assignedLecturers',
+      },
+    },
+    {
+      $unwind: { path: '$assignedLecturers', preserveNullAndEmptyArrays: true },
+    },
+    { $limit: limit },
+  ]).exec();
 }
 
 export async function CreateCourse(data: ICourse): Promise<Course> {
@@ -10,7 +31,7 @@ export async function CreateCourse(data: ICourse): Promise<Course> {
 }
 
 export async function GetSingleCourse(query: object) {
-  return CourseModel.findOne(query);
+  return GetMultipleCourses(query, 1).then(data => data[0]);
 }
 
 export async function DeleteSingleCourse(query: object) {

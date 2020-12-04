@@ -4,7 +4,7 @@ import { isValidObjectId } from 'mongoose';
 import { RequestExtend } from '../../auth';
 import allow from '../../helper/user-permission';
 import {
-  GetAllCourses,
+  GetMultipleCourses,
   GetSingleCourse,
   UpdateCourse,
   DeleteSingleCourse,
@@ -25,7 +25,7 @@ coursesRouter.get(
   '/',
   allow(scope),
   async (_: RequestExtend, res: Response) => {
-    return GetAllCourses()
+    return GetMultipleCourses()
       .then((data) => {
         return SuccessfulResponse(res, data);
       })
