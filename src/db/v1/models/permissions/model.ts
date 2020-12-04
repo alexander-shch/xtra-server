@@ -41,7 +41,7 @@ export const PermissionsSchema = new Schema<PermissionList>(
   }
 );
 
-export const RoleSchema = new Schema<IRoleDOC>({
+export const RoleSchema = new Schema<IRole>({
   name: { type: String, required: true },
   permissions: { type: PermissionsSchema, required: true },
 });

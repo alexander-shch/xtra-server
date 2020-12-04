@@ -28,3 +28,14 @@ export function ServerError(res: Response, message: any = ''): Response {
     error: message || 'Some server error occurred',
   });
 }
+
+export function SuccessOrNotFound(
+  res: Response,
+  data: any,
+  message: any = ''
+): Response {
+  if (!data) {
+    return NotFound(res, message);
+  }
+  return SuccessfulResponse(res, message);
+}
