@@ -1,4 +1,4 @@
-import { Schema, Types } from 'mongoose';
+import { Types } from 'mongoose';
 import { GetNotes } from '../notes/controller';
 import { Note } from '../notes/model';
 import StudentModel, { IStudent } from './model';
@@ -11,9 +11,15 @@ export function GetAllStudents(query = {}): Promise<IStudent[]> {
     {
       $lookup: {
         from: 'notes',
-        localField: '_id',
-        foreignField: 'related',
+        let: { id: '$_id' },
         pipeline: [
+          {
+            $match: {
+              $expr: {
+                $eq: ['$related', '$$id'],
+              },
+            },
+          },
           {
             $lookup: {
               from: 'users',
@@ -32,6 +38,7 @@ export function GetAllStudents(query = {}): Promise<IStudent[]> {
     {
       $project: {
         'notes.related': 0,
+        '*.__v': 0
       },
     },
   ]).exec();

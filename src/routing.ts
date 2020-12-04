@@ -13,6 +13,7 @@ import settingsRouter from './api/settings';
 import SemesterRouter from './api/semester';
 import coursesRouter from './api/courses';
 import couponsRouter from './api/coupons';
+import studentsRouter from './api/students';
 
 const appRouter = Router();
 
@@ -29,5 +30,6 @@ appRouter.use('/settings', settingsRouter);
 appRouter.use('/semesters', SemesterRouter);
 appRouter.use('/courses', coursesRouter);
 appRouter.use('/coupons', couponsRouter);
+appRouter.use('/students', studentsRouter);
 
 export default appRouter;

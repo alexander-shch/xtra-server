@@ -1,7 +1,10 @@
+const mongoErrors = require('mongo-error-handler');
 import { Router, Response } from 'express';
+import { isValidObjectId } from 'mongoose';
+
 import { RequestExtend } from '../../auth';
 import allow, { loggedIn } from '../../helper/user-permission';
-import { isValidObjectId } from 'mongoose';
+import Queries from '../../db/queries';
 import {
   BadRequest,
   SuccessfulResponse,
@@ -9,22 +12,7 @@ import {
   NotFound,
   SuccessOrNotFound,
 } from '../../helper/http';
-import {
-  GetAllLecturers,
-  GetSingleLecturer,
-  CreateLecturer,
-  UpdateLecturer,
-  DeleteLecturer,
-  AddNote,
-  RemoveNote,
-  UpdateLecturerAvatar,
-  GetNotesByLecturerId,
-  PushLecturerFiles,
-  PullLecturerFiles,
-} from '../../db/v1/models/lecturer/controller';
 import { CreateNote, DeleteNote } from '../../db/v1/models/notes/controller';
-import Queries from '../../db/queries';
-import { Delete, Upload } from '../../db/v1/models/files/controller';
 import {
   CreateSingleStudent,
   DeleteSingleStudent,
@@ -43,9 +31,8 @@ studentRouter.get(
   async (_: RequestExtend, res: Response) => {
     return GetAllStudents()
       .then((data) => SuccessfulResponse(res, data))
-      .catch(({ errors }) => {
-        console.error(errors);
-        return ServerError(res, errors);
+      .catch((error) => {
+        return ServerError(res, mongoErrors(error));
       });
   }
 );
@@ -66,9 +53,8 @@ studentRouter.get(
         }
         return SuccessfulResponse(res, data);
       })
-      .catch(({ errors }) => {
-        console.error(errors);
-        return ServerError(res, errors);
+      .catch((error) => {
+        return ServerError(res, mongoErrors(error));
       });
   }
 );
@@ -81,9 +67,8 @@ studentRouter.post(
       .then((data) => {
         return SuccessfulResponse(res, data);
       })
-      .catch(({ errors }) => {
-        console.error(errors);
-        return ServerError(res, errors);
+      .catch((error) => {
+        return ServerError(res, mongoErrors(error));
       });
   }
 );
@@ -100,9 +85,8 @@ studentRouter.put(
       .then((data) => {
         return SuccessOrNotFound(res, data);
       })
-      .catch(({ errors }) => {
-        console.error(errors);
-        return ServerError(res, errors);
+      .catch((error) => {
+        return ServerError(res, mongoErrors(error));
       });
   }
 );
@@ -119,9 +103,8 @@ studentRouter.delete(
       .then((deleted) => {
         return SuccessfulResponse(res, { deleted });
       })
-      .catch(({ errors }) => {
-        console.error(errors);
-        return ServerError(res, errors);
+      .catch((error) => {
+        return ServerError(res, mongoErrors(error));
       });
   }
 );
@@ -137,9 +120,8 @@ studentRouter.get(
 
     return GetStudentNotes(studentId)
       .then((notes) => SuccessfulResponse(res, notes))
-      .catch(({ errors }) => {
-        console.error(errors);
-        return ServerError(res, errors);
+      .catch((error) => {
+        return ServerError(res, mongoErrors(error));
       });
   }
 );
@@ -162,9 +144,8 @@ studentRouter.post(
       related: studentId,
     })
       .then((newNote) => SuccessfulResponse(res, newNote))
-      .catch(({ errors }) => {
-        console.error(errors);
-        return ServerError(res, errors);
+      .catch((error) => {
+        return ServerError(res, mongoErrors(error));
       });
   }
 );
@@ -180,11 +161,10 @@ studentRouter.delete(
 
     return DeleteNote(noteId)
       .then((deleted) => SuccessfulResponse(res, { deleted }))
-      .catch(({ errors }) => {
-        console.error(errors);
-        return ServerError(res, errors);
+      .catch((error) => {
+        return ServerError(res, mongoErrors(error));
       });
   }
 );
 
-export default lecturerRouter;
+export default studentRouter;

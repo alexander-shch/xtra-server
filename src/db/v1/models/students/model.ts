@@ -16,8 +16,8 @@ const StudentSchema = new Schema({
   lastName: { type: String, required: true },
   id: { type: Number, required: true, unique: true },
   email: { type: String, required: true, unique: true },
-  phone: { type: Number, required: true },
+  phone: { type: String, required: true },
   advertising: { type: Boolean, required: false, default: true },
 });
 
-export default model<IStudentDOC>('coupons', StudentSchema);
+export default model<IStudentDOC>('students', StudentSchema);

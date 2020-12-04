@@ -153,6 +153,7 @@ lecturerRouter.post(
       user: user?._id as string,
       created: new Date().toUTCString(),
       text: req.body.text,
+      related: lecturerId,
     })
       .then((newNote) => {
         return AddNote(lecturerId, newNote._id).then(() =>

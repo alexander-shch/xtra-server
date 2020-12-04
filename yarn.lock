@@ -3298,6 +3298,11 @@ moment@*, moment@^2.27.0:
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
   integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==
 
+mongo-error-handler@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/mongo-error-handler/-/mongo-error-handler-1.0.0.tgz#e323a508fa70e8ea39ef9efe90e70ec67bb11ccd"
+  integrity sha512-lfNHkmixrc1C1pD2LTL3R/8fUh41C9O7EJ3IojUQ9IMG20U7RM7qqciVJaO6P3yLhBwu/O64ed2lGYiP/GO4zQ==
+
 mongodb@3.5.8:
   version "3.5.8"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.5.8.tgz#34550856449b745d145873734bf922c12d6b9caa"

@@ -7,7 +7,6 @@ import {
   BadRequest,
   SuccessfulResponse,
   ServerError,
-  NotFound,
   SuccessOrNotFound,
 } from '../../helper/http';
 import {

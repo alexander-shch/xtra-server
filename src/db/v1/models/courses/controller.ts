@@ -1,12 +1,12 @@
-import CourseModel, { Course, ICourse } from './model';
+import CourseModel, { ICourse } from './model';
 
 export async function GetMultipleCourses(
   query: object = {},
   limit: number = 999
-): Promise<Course[]> {
+): Promise<ICourse[]> {
   if (limit) {
   }
-  return CourseModel.aggregate<Course[]>([
+  return CourseModel.aggregate<ICourse[]>([
     {
       $match: query,
     },
@@ -25,7 +25,7 @@ export async function GetMultipleCourses(
   ]).exec();
 }
 
-export async function CreateCourse(data: ICourse): Promise<Course> {
+export async function CreateCourse(data: ICourse): Promise<ICourse> {
   const newCourse = new CourseModel(data);
   return newCourse.save();
 }
