@@ -15,9 +15,14 @@ export async function GetNotes(query: object = {}): Promise<Note[]> {
       },
     },
     {
-      $unwind: '$user',
+      $unwind: { path: '$user', preserveNullAndEmptyArrays: true },
     },
-  ]).exec();
+    {
+      $project: {
+        related: 0,
+      },
+    },
+  ]);
 }
 
 export async function GetNote(query: object = {}): Promise<Note> {
@@ -32,12 +37,12 @@ export async function GetNote(query: object = {}): Promise<Note> {
 export async function CreateNote(LecturerData: INote): Promise<Note> {
   const newClass = new INoteSchemaModel(LecturerData);
   return newClass.save().then((noteDate) => {
-    return GetNote({ _id: Types.ObjectId(noteDate._id) })
+    return GetNote({ _id: Types.ObjectId(noteDate._id) });
   });
 }
 
 export async function DeleteNote(id: string): Promise<Boolean> {
-  return INoteSchemaModel.findByIdAndDelete(id).then((_) => true);
+  return INoteSchemaModel.findByIdAndDelete(id).then((d) => !!d);
 }
 
 export async function UpdateNote(id: string, data: Note): Promise<Note> {

@@ -11,7 +11,8 @@ export type PermissionsScope =
   | 'settings'
   | 'semesters'
   | 'courses'
-  | 'coupons';
+  | 'coupons'
+  | 'students';
 export type PermissionTable = Record<PermissionOptions, boolean>;
 export type PermissionList = Record<PermissionsScope, PermissionTable>;
 export interface Role {
