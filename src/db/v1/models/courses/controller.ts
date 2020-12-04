@@ -31,7 +31,7 @@ export async function CreateCourse(data: ICourse): Promise<Course> {
 }
 
 export async function GetSingleCourse(query: object) {
-  return GetMultipleCourses(query, 1).then(data => data[0]);
+  return GetMultipleCourses(query, 1).then((data) => data[0]);
 }
 
 export async function DeleteSingleCourse(query: object) {
