@@ -1,46 +1,41 @@
 import CourseModel, { Course, ICourse } from './model';
 
-export async function GetAllCourses(query: object = {}): Promise<Course[]> {
-  return CourseModel.aggregate<Course>([
+export async function GetMultipleCourses(
+  query: object = {},
+  limit: number = 999
+): Promise<Course[]> {
+  if (limit) {
+  }
+  return CourseModel.aggregate<Course[]>([
     {
       $match: query,
     },
     {
       $lookup: {
-        from: 'classes',
-        localField: 'class',
+        from: 'lecturers',
+        localField: 'assignedLecturers',
         foreignField: '_id',
-        as: 'class',
+        as: 'assignedLecturers',
       },
     },
     {
-      $unwind: '$class',
+      $unwind: { path: '$assignedLecturers', preserveNullAndEmptyArrays: true },
     },
-    {
-      $project: {
-        'class.__v': 0,
-        __v: 0,
-      },
-    },
+    { $limit: limit },
   ]).exec();
 }
 
+export async function CreateCourse(data: ICourse): Promise<Course> {
+  const newCourse = new CourseModel(data);
+  return newCourse.save();
+}
+
 export async function GetSingleCourse(query: object) {
-  return GetAllCourses(query).then((data) => {
-    if (data.length > 0) {
-      return data[0];
-    }
-    return undefined;
-  });
+  return GetMultipleCourses(query, 1).then((data) => data[0]);
 }
 
-export async function CreateClass(classData: ICourse) {
-  const newClass = new CourseModel(classData);
-  return newClass.save().then((d) => d.toJSON());
-}
-
-export async function DeleteClass(id: string) {
-  return CourseModel.findByIdAndDelete(id).then((_) => true);
+export async function DeleteSingleCourse(query: object) {
+  return CourseModel.findOneAndDelete(query).then(() => true);
 }
 
 export async function UpdateCourse(id: string, data: ICourse) {
@@ -48,7 +43,5 @@ export async function UpdateCourse(id: string, data: ICourse) {
     id,
     { $set: data },
     { new: true, runValidators: true }
-  )
-    .exec()
-    .then((data) => GetSingleCourse({ _id: data?._id }));
+  );
 }

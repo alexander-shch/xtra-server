@@ -1,128 +1,75 @@
 import mongoose, { Schema, Document } from 'mongoose';
-import { IClassRoom } from '../classes/model';
+import { Category } from '../categories/model';
 
-export interface InfoForWebsite {
-  courseName?: string;
-  mainFirstTitle?: string;
-  mainFirstText?: string;
-  mainSecondTitle?: string;
-  mainThirdText?: string;
-  mainThirdTitle?: string;
-  bottomFirstTitle?: string;
-  bottomFirstText?: string;
-  bottomSecondTitle?: string;
-  bottomSecondText?: string;
-  bottomThirdTitle?: string;
-  bottomThirdText?: string;
-  bottomFourthTitle?: string;
-  bottomFourthText?: string;
-  bottomFifthTitle?: string;
-  bottomFifthText?: string;
+export interface TitlesForWebsite {
+  title?: string;
+  target?: string;
+  requirements?: string;
+  progress?: string;
+  marketing?: string;
+  meetingsCount?: string;
+  meetingLength?: string;
 }
 
-export type SalaryType = 'hour' | 'day' | 'week' | 'month';
-
-export interface Salary {
-  type: SalaryType;
-  rate: number;
-}
-
-export interface Lecture {
-  _id: string;
-  name: string;
-  salary: Salary;
-}
-
-export interface Syllabus {
-  name: string;
-  fileURL: string;
-}
-
-export interface Category {
-  name: string;
-}
-
-export interface Student {}
-
-export interface ICourse extends Document {
-  class: string;
-  name: string;
-  courseID: string;
+export interface ICourse {
+  title: string;
+  category: string | Category;
+  target: string;
+  requirements: string;
+  progress: string;
+  marketing: string;
+  meetingsCount: string;
+  meetingLength: string;
   minStudents: number;
   maxStudents: number;
-  category: string;
-  status: boolean;
-  notes: string[];
-  notesForScheduleMeetings: string;
-  infoForWebsite: InfoForWebsite;
-  lecturers: string[];
-  syllabus: Syllabus;
-  students: string[];
+  active: boolean;
+  assignToClassComments: string;
+  schedulingComments: string;
+  extTitles: TitlesForWebsite;
+  coupons: string;
 }
 
-export const InfoForWebsiteSchema = new Schema<InfoForWebsite>({
-  courseName: { type: String, required: false, default: '' },
-  mainFirstTitle: { type: String, required: false, default: '' },
-  mainFirstText: { type: String, required: false, default: '' },
-  mainSecondTitle: { type: String, required: false, default: '' },
-  mainThirdText: { type: String, required: false, default: '' },
-  mainThirdTitle: { type: String, required: false, default: '' },
-  bottomFirstTitle: { type: String, required: false, default: '' },
-  bottomFirstText: { type: String, required: false, default: '' },
-  bottomSecondTitle: { type: String, required: false, default: '' },
-  bottomSecondText: { type: String, required: false, default: '' },
-  bottomThirdTitle: { type: String, required: false, default: '' },
-  bottomThirdText: { type: String, required: false, default: '' },
-  bottomFourthTitle: { type: String, required: false, default: '' },
-  bottomFourthText: { type: String, required: false, default: '' },
-  bottomFifthTitle: { type: String, required: false, default: '' },
-  bottomFifthText: { type: String, required: false, default: '' },
-});
+type ICourseDOC = ICourse & Document;
 
-export const SyllabusSchema = new Schema({
-  name: { type: String, required: true },
-  fileURL: { type: String, required: true },
-});
+export const TitlesForWebsite = new Schema<TitlesForWebsite>(
+  {
+    title: { type: String, required: false, default: '' },
+    target: { type: String, required: false, default: '' },
+    requirements: { type: String, required: false, default: '' },
+    progress: { type: String, required: false, default: '' },
+    meetingsCount: { type: String, required: false, default: '' },
+    meetingLength: { type: String, required: false, default: '' },
+  },
+  {
+    _id: false,
+  }
+);
 
 export const CourseSchema = new Schema<ICourse>({
-  class: { type: Schema.Types.ObjectId, required: true },
-  name: { type: String, required: false, default: '' },
-  courseID: { type: String, required: true },
-  minStudents: { type: Number, required: true },
-  maxStudents: { type: Number, required: true },
+  title: { type: String, required: true },
   category: { type: Schema.Types.ObjectId, required: true },
-  status: { type: Boolean, required: false, default: false },
-  notes: { type: [String], required: false, default: [] },
-  notesForScheduleMeetings: { type: [String], required: false, default: [] },
-  infoForWebsite: {
-    type: InfoForWebsiteSchema,
+  active: { type: Boolean, required: false, default: true },
+  target: { type: String, required: false, default: '' },
+  requirements: { type: String, required: false, default: '' },
+  progress: { type: String, required: false, default: '' },
+  marketing: { type: String, required: false, default: '' },
+  meetingsCount: { type: Number, required: false, default: 0 },
+  meetingLength: { type: Number, required: false, default: 0 },
+  minStudents: { type: Number, required: false, default: 1, min: 1 },
+  maxStudents: { type: Number, required: false, default: 1, min: 1 },
+  extTitles: { type: TitlesForWebsite, required: false, default: {} },
+  assignToClassComments: { type: String, required: false, default: '' },
+  schedulingComments: { type: String, required: false, default: '' },
+  coupons: { type: [Schema.Types.ObjectId], required: false, default: [] },
+  assignedLecturers: {
+    type: [Schema.Types.ObjectId],
     required: false,
-    default: {},
+    default: [],
   },
-  lecturers: { type: [Schema.Types.ObjectId], required: true },
-  syllabus: {
-    type: [SyllabusSchema],
-    required: false,
-    default: {},
-  },
-  students: { type: [Schema.Types.ObjectId], required: false, default: [] },
 });
 
-export interface Course {
+export interface Course extends ICourse {
   _id: string;
-  class: IClassRoom;
-  name: string;
-  courseID: string;
-  minStudents: number;
-  maxStudents: number;
-  category: Category;
-  status: boolean;
-  notes: string[];
-  notesForScheduleMeetings: string[];
-  infoForWebsite: InfoForWebsite;
-  lecturers: Lecture[];
-  syllabus: Syllabus;
-  students: Student[];
 }
 
-export default mongoose.model<ICourse>('Courses', CourseSchema);
+export default mongoose.model<ICourseDOC>('courses', CourseSchema);

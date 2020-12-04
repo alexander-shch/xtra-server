@@ -53,11 +53,10 @@ export default function allow(scope: PermissionsScope) {
       });
     }
     const permissionAction = methodMapper(method);
-    if (!permissionAction) {
+    if (permissionAction === undefined) {
       return res.sendStatus(405);
     }
-    const allowed = hasPermission(user, scope, permissionAction);
-    if (!allowed) {
+    if (hasPermission(user, scope, permissionAction) === false) {
       return res.status(403).json({
         message: `Action ${permissionAction} on ${scope} is not allowed`,
       });
