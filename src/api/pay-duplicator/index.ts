@@ -22,11 +22,7 @@ const scope = 'payDuplicator';
 payDuplicatorRouter.get(
   '/',
   allow(scope),
-  (req: RequestExtend, res: Response) => {
-    if (!isValidObjectId(req.params.id)) {
-      return BadRequest(res);
-    }
-
+  (_: RequestExtend, res: Response) => {
     return GetAllPayDuplicators()
       .then((data) => {
         return SuccessfulResponse(res, data);
