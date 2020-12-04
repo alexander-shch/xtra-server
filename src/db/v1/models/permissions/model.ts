@@ -33,6 +33,8 @@ export const PermissionsSchema = new Schema<PermissionList>(
     settings: { type: PermissionSchema, required: true },
     semesters: { type: PermissionSchema, required: true },
     courses: { type: PermissionSchema, required: true },
+    coupons: { type: PermissionSchema, required: true },
+    students: { type: PermissionSchema, required: true },
   },
   {
     _id: false,
