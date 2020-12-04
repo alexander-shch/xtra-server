@@ -1,5 +1,4 @@
 import mongoose, { Schema, Document } from 'mongoose';
-import { Category } from '../categories/model';
 
 export interface TitlesForWebsite {
   title?: string;
@@ -13,7 +12,7 @@ export interface TitlesForWebsite {
 
 export interface ICourse {
   title: string;
-  category: string | Category;
+  category: string;
   target: string;
   requirements: string;
   progress: string;
@@ -60,16 +59,9 @@ export const CourseSchema = new Schema<ICourse>({
   extTitles: { type: TitlesForWebsite, required: false, default: {} },
   assignToClassComments: { type: String, required: false, default: '' },
   schedulingComments: { type: String, required: false, default: '' },
-  coupons: { type: [Schema.Types.ObjectId], required: false, default: [] },
-  assignedLecturers: {
-    type: [Schema.Types.ObjectId],
-    required: false,
-    default: [],
-  },
+  coupon: { type: Schema.Types.ObjectId, required: false, default: [] },
+  assignedLecturers: { type: [Schema.Types.ObjectId], required: false },
+  files: { type: [Schema.Types.ObjectId], required: false },
 });
-
-export interface Course extends ICourse {
-  _id: string;
-}
 
 export default mongoose.model<ICourseDOC>('courses', CourseSchema);
