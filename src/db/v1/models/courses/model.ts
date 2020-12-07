@@ -47,7 +47,7 @@ export const TitlesForWebsite = new Schema(
 
 export const CourseSchema = new Schema({
   title: { type: String, required: true },
-  category: { type: Schema.Types.ObjectId, required: true },
+  category: { type: Schema.Types.ObjectId, required: false },
   active: { type: Boolean, required: false, default: true },
   target: { type: String, required: false, default: '' },
   requirements: { type: String, required: false, default: '' },
@@ -60,7 +60,7 @@ export const CourseSchema = new Schema({
   extTitles: { type: TitlesForWebsite, required: false, default: {} },
   assignToClassComments: { type: String, required: false, default: '' },
   schedulingComments: { type: String, required: false, default: '' },
-  coupon: { type: Schema.Types.ObjectId, required: false, default: [] },
+  coupon: { type: Schema.Types.ObjectId, required: false },
   assignedLecturers: { type: [Schema.Types.ObjectId], required: false },
   files: { type: [Schema.Types.ObjectId], required: false },
 });

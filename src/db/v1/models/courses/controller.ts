@@ -10,17 +10,6 @@ export async function GetMultipleCourses(
     {
       $match: query,
     },
-    {
-      $lookup: {
-        from: 'lecturers',
-        localField: 'assignedLecturers',
-        foreignField: '_id',
-        as: 'assignedLecturers',
-      },
-    },
-    {
-      $unwind: { path: '$assignedLecturers', preserveNullAndEmptyArrays: true },
-    },
     { $limit: limit },
   ]).exec();
 }
