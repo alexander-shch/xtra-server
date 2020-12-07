@@ -10,6 +10,14 @@ export async function GetMultipleCourses(
     {
       $match: query,
     },
+    {
+      $lookup: {
+        from: 'files',
+        localField: 'files',
+        foreignField: '_id',
+        as: 'files',
+      },
+    },
     { $limit: limit },
   ]).exec();
 }
