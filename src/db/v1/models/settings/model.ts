@@ -8,7 +8,7 @@ export interface ISetting {
 
 type ISettingDOC = ISetting & Document;
 
-const SettingSchema = new Schema<ISetting>({
+const SettingSchema = new Schema({
   name: { type: String, required: true },
   value: { type: String, required: false, default: '' },
   description: { type: String, required: false, default: '' },

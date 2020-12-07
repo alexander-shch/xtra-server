@@ -1,14 +1,15 @@
 import mongoose, { Schema, Document } from 'mongoose';
-import { PermissionList, PermissionTable } from '../../../../models';
+import { PermissionList } from '../../../../models';
 
 export interface IRole {
+  _id?: string;
   name: string;
   permissions: PermissionList;
 }
 
-export interface IRoleDOC extends IRole, Document {}
+export type IRoleDOC = IRole & Document;
 
-export const PermissionSchema = new Schema<PermissionTable>(
+export const PermissionSchema = new Schema(
   {
     read: Boolean,
     update: Boolean,
@@ -20,7 +21,7 @@ export const PermissionSchema = new Schema<PermissionTable>(
   }
 );
 
-export const PermissionsSchema = new Schema<PermissionList>(
+export const PermissionsSchema = new Schema(
   {
     user: { type: PermissionSchema, required: true },
     permissions: { type: PermissionSchema, required: true },
@@ -41,7 +42,7 @@ export const PermissionsSchema = new Schema<PermissionList>(
   }
 );
 
-export const RoleSchema = new Schema<IRole>({
+export const RoleSchema = new Schema({
   name: { type: String, required: true },
   permissions: { type: PermissionsSchema, required: true },
 });

@@ -1,19 +1,21 @@
-import SemesterModel, { ISemester, Semester } from './model';
+import SemesterModel, { ISemester } from './model';
 
 export async function CreateSemester(data: ISemester) {
   const newSemester = new SemesterModel(data);
   return newSemester.save();
 }
-export async function GetSemester(query: object): Promise<Semester> {
+export async function GetSemester(
+  query: object
+): Promise<ISemester | undefined> {
   return SemesterModel.findOne(query).then((json) => json?.toJSON());
 }
-export async function GetAllSemesters(): Promise<Semester[]> {
+export async function GetAllSemesters(): Promise<ISemester[]> {
   return SemesterModel.find({});
 }
 export async function UpdateSemester(
   id: string,
   data: ISemester
-): Promise<Semester> {
+): Promise<ISemester | undefined> {
   return SemesterModel.findByIdAndUpdate(
     id,
     { $set: data },

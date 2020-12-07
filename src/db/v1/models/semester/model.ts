@@ -1,6 +1,7 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface ISemester {
+  _id?: string;
   name: string;
   startDate: string;
   endDate: string;
@@ -9,15 +10,11 @@ export interface ISemester {
 
 type ISemesterDoc = ISemester & Document;
 
-const SemesterSchema = new Schema<ISemester>({
+const SemesterSchema = new Schema({
   name: { type: String, required: true },
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
   active: { type: Boolean, required: false, default: true },
 });
-
-export interface Semester extends ISemester {
-  _id: string;
-}
 
 export default mongoose.model<ISemesterDoc>('semesters', SemesterSchema);

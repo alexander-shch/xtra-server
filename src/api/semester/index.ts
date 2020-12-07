@@ -9,7 +9,12 @@ import {
   GetSemester,
   UpdateSemester,
 } from '../../db/v1/models/semester/controller';
-import { BadRequest, ServerError, SuccessfulResponse } from '../../helper/http';
+import {
+  BadRequest,
+  ServerError,
+  SuccessfulResponse,
+  SuccessOrNotFound,
+} from '../../helper/http';
 import allow from '../../helper/user-permission';
 
 const scope = 'semesters';
@@ -28,7 +33,7 @@ SemesterRouter.get('/:id', (req: RequestExtend, res: Response) => {
     return BadRequest(res);
   }
   return GetSemester(Queries.ById(id))
-    .then((data) => SuccessfulResponse(res, data))
+    .then((data) => SuccessOrNotFound(res, data))
     .catch(({ errors }) => ServerError(res, errors));
 });
 
@@ -46,7 +51,7 @@ SemesterRouter.put('/:id', (req: RequestExtend, res: Response) => {
   }
   const semesterData = req.body;
   return UpdateSemester(id, semesterData)
-    .then((data) => SuccessfulResponse(res, data))
+    .then((data) => SuccessOrNotFound(res, data))
     .catch(({ errors }) => ServerError(res, errors));
 });
 

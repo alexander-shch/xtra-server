@@ -5,10 +5,9 @@ export interface IBuilding {
   active: boolean;
 }
 
-export interface IBuildingDOC extends IBuilding, Document {}
+export type IBuildingDOC = IBuilding & Document;
 
-
-export const BuildingSchema = new Schema<IBuildingDOC>({
+export const BuildingSchema = new Schema({
   name: { type: String, required: true, unique: true },
   active: { type: Boolean, required: true },
 });

@@ -2,7 +2,12 @@ import { Router, Response } from 'express';
 import { RequestExtend } from '../../auth';
 import allow from '../../helper/user-permission';
 import { isValidObjectId } from 'mongoose';
-import { BadRequest, SuccessfulResponse, ServerError } from '../../helper/http';
+import {
+  BadRequest,
+  SuccessfulResponse,
+  ServerError,
+  SuccessOrNotFound,
+} from '../../helper/http';
 import {
   GetAllBuildings,
   GetBuildingById,
@@ -40,7 +45,7 @@ buildingsRouter.get(
 
     return GetBuildingById(id)
       .then((data) => {
-        return SuccessfulResponse(res, data);
+        return SuccessOrNotFound(res, data);
       })
       .catch(({ errors }) => {
         console.error(errors);
@@ -70,7 +75,7 @@ buildingsRouter.put(
     }
     return FindAndUpdate(id, req.body)
       .then((data) => {
-        return SuccessfulResponse(res, data);
+        return SuccessOrNotFound(res, data);
       })
       .catch(({ errors }) => {
         console.error(errors);

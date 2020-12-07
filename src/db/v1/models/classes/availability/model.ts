@@ -1,31 +1,27 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import moment from 'moment';
 
-export interface IClassAvailability extends Document {
+export interface IClassAvailability {
+  _id?: string;
   classId: string;
   from: string;
   to: string;
 }
 
-export const ClassAvailabilitySchema = new Schema<IClassAvailability>({
+export type IClassAvailabilityDOC = IClassAvailability & Document;
+
+export const ClassAvailabilitySchema = new Schema({
   classId: { type: Schema.Types.ObjectId, required: true },
   from: {
     type: Date,
     required: false,
-    default: moment().toDate(),
-    min: moment().toDate(),
+    default: moment().utc().toDate(),
+    min: Number(moment().utc().toNow()),
   },
   to: { type: Date, required: true },
 });
 
-export interface ClassAvailability {
-  _id: string;
-  from: string;
-  to: string;
-  classId: string;
-}
-
-export default mongoose.model<IClassAvailability>(
+export default mongoose.model<IClassAvailabilityDOC>(
   'ClassAvailability',
   ClassAvailabilitySchema
 );

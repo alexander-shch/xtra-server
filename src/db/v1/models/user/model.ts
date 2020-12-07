@@ -23,14 +23,14 @@ UserSchema.pre<IUserDOC>('save', function (next) {
   var user = this;
 
   // only hash the password if it has been modified (or is new)
-  if (!user.isModified('password')) return next();
+  if (!user.isModified('password')) return next(null);
 
   const pass = createHash('sha256')
     .update(user.password as string)
     .digest('base64');
 
   user.password = pass;
-  next();
+  next(null);
 });
 
 export default mongoose.model<IUserDOC>('users', UserSchema);

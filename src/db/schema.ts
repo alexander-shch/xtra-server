@@ -1,7 +1,6 @@
 import { Schema } from 'mongoose';
-import { Address } from '../models';
 
-export const AddressSchema = new Schema<Address>(
+export const AddressSchema = new Schema(
   {
     address: { type: String, required: false },
     zip: { type: String, required: false },

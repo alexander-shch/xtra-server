@@ -11,6 +11,7 @@ export interface TitlesForWebsite {
 }
 
 export interface ICourse {
+  _id?: string;
   title: string;
   category: string;
   target: string;
@@ -30,7 +31,7 @@ export interface ICourse {
 
 type ICourseDOC = ICourse & Document;
 
-export const TitlesForWebsite = new Schema<TitlesForWebsite>(
+export const TitlesForWebsite = new Schema(
   {
     title: { type: String, required: false, default: '' },
     target: { type: String, required: false, default: '' },
@@ -44,7 +45,7 @@ export const TitlesForWebsite = new Schema<TitlesForWebsite>(
   }
 );
 
-export const CourseSchema = new Schema<ICourse>({
+export const CourseSchema = new Schema({
   title: { type: String, required: true },
   category: { type: Schema.Types.ObjectId, required: true },
   active: { type: Boolean, required: false, default: true },

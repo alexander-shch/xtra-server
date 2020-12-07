@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 import { GetNotes } from '../notes/controller';
-import { Note } from '../notes/model';
+import { INote } from '../notes/model';
 import StudentModel, { IStudent } from './model';
 
 export function GetAllStudents(query = {}): Promise<IStudent[]> {
@@ -38,7 +38,7 @@ export function GetAllStudents(query = {}): Promise<IStudent[]> {
     {
       $project: {
         'notes.related': 0,
-        '*.__v': 0
+        '*.__v': 0,
       },
     },
   ]).exec();
@@ -59,10 +59,10 @@ export function DeleteSingleStudent(id: string): Promise<boolean> {
 
 export function CreateSingleStudent(data: IStudent): Promise<IStudent> {
   const newStudents = new StudentModel(data);
-  return newStudents.save().then((data) => data.toJSON());
+  return newStudents.save();
 }
 
-export function GetStudentNotes(studentId: string): Promise<Note[]> {
+export function GetStudentNotes(studentId: string): Promise<INote[]> {
   return GetNotes({ related: Types.ObjectId(studentId) });
 }
 

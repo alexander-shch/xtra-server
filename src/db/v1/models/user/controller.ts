@@ -26,9 +26,10 @@ export async function FindUserFull(queryObject: Partial<User>) {
         password: 0,
       },
     },
-  ])
-    .limit(1)
-    .then((singleUser) => singleUser[0]);
+    {
+      $limit: 1,
+    },
+  ]).then((singleUser) => singleUser[0]);
 }
 
 export async function CreateUser(user: IUser) {

@@ -1,11 +1,11 @@
 import { isValidObjectId } from 'mongoose';
 import Queries from '../../../queries';
-import ClassesModel, { ClassRoom, IClassRoom } from './model';
+import ClassesModel, { IClassRoom } from './model';
 
 export async function GetAllClassRooms(
   query: object = {}
-): Promise<ClassRoom[]> {
-  return ClassesModel.aggregate<ClassRoom>([
+): Promise<IClassRoom[]> {
+  return ClassesModel.aggregate<IClassRoom>([
     {
       $match: query,
     },

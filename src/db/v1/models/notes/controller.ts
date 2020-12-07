@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
-import INoteSchemaModel, { Note, INote } from './model';
+import INoteSchemaModel, { INote } from './model';
 
-export async function GetNotes(query: object = {}): Promise<Note[]> {
+export async function GetNotes(query: object = {}): Promise<INote[]> {
   return INoteSchemaModel.aggregate([
     {
       $match: query,
@@ -25,7 +25,7 @@ export async function GetNotes(query: object = {}): Promise<Note[]> {
   ]);
 }
 
-export async function GetNote(query: object = {}): Promise<Note> {
+export async function GetNote(query: object = {}): Promise<INote> {
   return GetNotes(query).then((response) => {
     if (response.length) {
       return Promise.resolve(response[0]);
@@ -34,7 +34,7 @@ export async function GetNote(query: object = {}): Promise<Note> {
   });
 }
 
-export async function CreateNote(LecturerData: INote): Promise<Note> {
+export async function CreateNote(LecturerData: INote): Promise<INote> {
   const newClass = new INoteSchemaModel(LecturerData);
   return newClass.save().then((noteDate) => {
     return GetNote({ _id: Types.ObjectId(noteDate._id) });
@@ -45,11 +45,12 @@ export async function DeleteNote(id: string): Promise<Boolean> {
   return INoteSchemaModel.findByIdAndDelete(id).then((d) => !!d);
 }
 
-export async function UpdateNote(id: string, data: Note): Promise<Note> {
+export async function UpdateNote(
+  id: string,
+  data: INote
+): Promise<INote | undefined> {
   return INoteSchemaModel.findByIdAndUpdate(id, data, {
     new: true,
     runValidators: true,
-  })
-    .exec()
-    .then((data) => data?.toJSON());
+  }).then((data) => data?.toJSON());
 }

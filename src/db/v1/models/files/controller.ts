@@ -1,5 +1,5 @@
 import { UploadedFile } from 'express-fileupload';
-import FileModelSchema, { FileDetails } from './model';
+import FileModelSchema, { IFileDetails } from './model';
 import { deleteFile, moveFile } from '../../../../services/files';
 import Queries from '../../../queries';
 
@@ -29,11 +29,11 @@ export function GetFileList(query: object = {}) {
   return FileModelSchema.find(query);
 }
 
-export function GetFileById(fileId: string): Promise<FileDetails> {
+export function GetFileById(fileId: string): Promise<IFileDetails> {
   return FileModelSchema.findOne(Queries.ById(fileId)).then((fileData) => {
     if (!fileData) {
       return Promise.reject({ errors: 'File was not found' });
     }
     return fileData.toJSON();
-  });
+  }) as Promise<IFileDetails>;
 }

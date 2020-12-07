@@ -156,7 +156,7 @@ lecturerRouter.post(
       related: lecturerId,
     })
       .then((newNote) => {
-        return AddNote(lecturerId, newNote._id).then(() =>
+        return AddNote(lecturerId, newNote._id as string).then(() =>
           Promise.resolve(newNote)
         );
       })

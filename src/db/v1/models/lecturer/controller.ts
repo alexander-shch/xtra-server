@@ -1,6 +1,6 @@
 import Queries from '../../../queries';
-import { Note } from '../notes/model';
-import LecturerSchemaModel, { Lecturer } from './model';
+import { INote } from '../notes/model';
+import LecturerSchemaModel, { ILecturer, Lecturer } from './model';
 
 /**
  * @export
@@ -111,8 +111,8 @@ export async function GetSingleLecturer(query: object = {}): Promise<Lecturer> {
  * @return {*}  {Promise<Lecturer>}
  */
 export async function CreateLecturer(
-  LecturerData: Lecturer
-): Promise<Lecturer> {
+  LecturerData: ILecturer
+): Promise<ILecturer> {
   const newClass = new LecturerSchemaModel(LecturerData);
   return newClass.save().then((d) => d.toJSON());
 }
@@ -134,7 +134,7 @@ export async function DeleteLecturer(id: string): Promise<Boolean> {
  */
 export async function UpdateLecturer(
   id: string,
-  data: Partial<Lecturer>
+  data: Partial<ILecturer>
 ): Promise<Lecturer> {
   // remove fields that should not be updated with general update
   delete data.avatar;
@@ -149,9 +149,7 @@ export async function UpdateLecturer(
       new: true,
       runValidators: true,
     }
-  )
-    .exec()
-    .then((data) => GetSingleLecturer({ _id: data?._id }));
+  ).then((data) => GetSingleLecturer({ _id: data?._id }));
 }
 
 /**
@@ -173,9 +171,7 @@ export async function UpdateLecturerAvatar(
       new: true,
       runValidators: true,
     }
-  )
-    .exec()
-    .then((data) => GetSingleLecturer({ _id: data?._id }));
+  ).then((data) => GetSingleLecturer({ _id: data?._id }));
 }
 
 /**
@@ -204,10 +200,10 @@ export async function RemoveNote(lecturerId: string, noteId: string) {
 
 export async function GetNotesByLecturerId(
   lecturerId: string
-): Promise<Note[]> {
+): Promise<INote[]> {
   return GetSingleLecturer(Queries.ById(lecturerId)).then(
     ({ internalNotes }) => internalNotes || []
-  );
+  ) as Promise<INote[]>;
 }
 
 export async function PushLecturerFiles(lecturerId: string, noteId: string) {

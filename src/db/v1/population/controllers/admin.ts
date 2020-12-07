@@ -1,20 +1,20 @@
 import { isEqual } from 'lodash';
-import { Role } from '../../../../models';
 import { DefaultPermissionsSuperUser } from '../../../../settings/permissions';
 import {
   CreateRole,
   FindRole,
   RoleUpdateOne,
 } from '../../models/permissions/controller';
+import { IRole } from '../../models/permissions/model';
 import { CreateUser, FindUser } from '../../models/user/controller';
 
-function createAdminUser(role: Role) {
+function createAdminUser(role: IRole) {
   return FindUser({ name: 'admin' }).then((user) => {
     if (!user) {
       return CreateUser({
         name: 'admin',
         lastName: 'admin',
-        role: role._id,
+        role: role._id as string,
         email: 'admin@gmail.com',
         password: 'o87y3hu4g',
       });

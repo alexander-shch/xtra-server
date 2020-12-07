@@ -19,23 +19,26 @@ interface CourseDefaults {
   price: number;
   studentPrice: number;
 }
-interface ICategory extends Document {
+export interface ICategory {
+  _id?: string;
   title: string;
   active: boolean;
   courseDefaults: CourseDefaults;
 }
 
-const OptionSchema = new Schema<Option>({
+export type ICategoryDOC = ICategory & Document;
+
+const OptionSchema = new Schema({
   value: { type: String, required: false },
   title: { type: String, required: false },
 });
 
-const SessionSchema = new Schema<Session>({
+const SessionSchema = new Schema({
   count: { type: OptionSchema, required: false },
   length: { type: OptionSchema, required: false },
 });
 
-const CourseDefaultsSchema = new Schema<CourseDefaults>({
+const CourseDefaultsSchema = new Schema({
   preliminaryKnowledge: { type: OptionSchema, required: false },
   goals: { type: OptionSchema, required: false },
   promotion: { type: OptionSchema, required: false },
@@ -47,17 +50,10 @@ const CourseDefaultsSchema = new Schema<CourseDefaults>({
   studentPrice: { type: Number, required: false, default: 0 },
 });
 
-export const CategorySchema = new Schema<ICategory>({
+export const CategorySchema = new Schema({
   title: { type: String, required: true },
   active: { type: Boolean, required: false, default: true },
   courseDefaults: { type: CourseDefaultsSchema, required: false },
 });
 
-export interface Category {
-  _id: string;
-  title: string;
-  active: boolean;
-  courseDefaults: CourseDefaults;
-}
-
-export default mongoose.model<ICategory>('categories', CategorySchema);
+export default mongoose.model<ICategoryDOC>('categories', CategorySchema);

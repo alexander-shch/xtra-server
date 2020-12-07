@@ -1,12 +1,9 @@
-import ClassAvailabilityModel, {
-  ClassAvailability,
-  IClassAvailability,
-} from './model';
+import ClassAvailabilityModel, { IClassAvailability } from './model';
 import { CreateDateRangeAndCheck } from './helper';
 
 export async function GetAllClassAvailability(
   classId: string
-): Promise<ClassAvailability[]> {
+): Promise<IClassAvailability[]> {
   return ClassAvailabilityModel.find({ classId })
     .select({
       classId: 0,
@@ -16,7 +13,7 @@ export async function GetAllClassAvailability(
 
 export async function FindOneClassAvailability(
   _id: string
-): Promise<ClassAvailability | null> {
+): Promise<IClassAvailability | null> {
   return ClassAvailabilityModel.findOne({ _id }).lean();
 }
 
@@ -43,10 +40,10 @@ export async function DeleteAvailability(id: string): Promise<boolean> {
 export async function UpdateAvailability(
   id: string,
   data: IClassAvailability
-): Promise<ClassAvailability | null> {
+): Promise<IClassAvailability | undefined> {
   return ClassAvailabilityModel.findByIdAndUpdate(
     id,
     { $set: data },
     { new: true, runValidators: true }
-  ).exec();
+  ).then((data) => data?.toJSON());
 }

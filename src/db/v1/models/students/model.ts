@@ -1,6 +1,7 @@
 import { Document, model, Schema } from 'mongoose';
 
 export interface IStudent {
+  _id?: string;
   name: string;
   lastName: string;
   id: number;
