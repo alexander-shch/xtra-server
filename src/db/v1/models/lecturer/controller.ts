@@ -206,21 +206,21 @@ export async function GetNotesByLecturerId(
   ) as Promise<INote[]>;
 }
 
-export async function PushLecturerFiles(lecturerId: string, noteId: string) {
+export async function PushLecturerFiles(lecturerId: string, fileId: string) {
   return LecturerSchemaModel.findByIdAndUpdate(
     lecturerId,
     {
-      $push: { files: noteId },
+      $push: { files: fileId },
     },
     { new: true }
   ).then((lecturer) => GetSingleLecturer(Queries.ById(lecturer?._id)));
 }
 
-export async function PullLecturerFiles(lecturerId: string, noteId: string) {
+export async function PullLecturerFiles(lecturerId: string, fileId: string) {
   return LecturerSchemaModel.findByIdAndUpdate(
     lecturerId,
     {
-      $pull: { files: noteId },
+      $pull: { files: fileId },
     },
     { new: true }
   ).then((lecturer) => GetSingleLecturer(Queries.ById(lecturer?._id)));

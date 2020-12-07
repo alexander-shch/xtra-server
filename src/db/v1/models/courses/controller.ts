@@ -1,3 +1,4 @@
+import Queries from '../../../queries';
 import CourseModel, { ICourse } from './model';
 
 export async function GetMultipleCourses(
@@ -28,7 +29,12 @@ export async function CreateCourse(data: ICourse): Promise<ICourse> {
 }
 
 export async function GetSingleCourse(query: object) {
-  return GetMultipleCourses(query, 1).then((data) => data[0]);
+  return GetMultipleCourses(query, 1).then((data) => {
+    if (data.length == 0) {
+      return Promise.reject('Course was not found');
+    }
+    return data[0];
+  });
 }
 
 export async function DeleteSingleCourse(query: object) {
@@ -41,4 +47,24 @@ export async function UpdateCourse(id: string, data: ICourse) {
     { $set: data },
     { new: true, runValidators: true }
   );
+}
+
+export async function PushCourseFiles(id: string, fileId: string) {
+  return CourseModel.findByIdAndUpdate(
+    id,
+    {
+      $push: { files: fileId },
+    },
+    { new: true }
+  ).then((course) => GetSingleCourse(Queries.ById(course?._id)));
+}
+
+export async function PullCourseFiles(id: string, fileId: string) {
+  return CourseModel.findByIdAndUpdate(
+    id,
+    {
+      $pull: { files: fileId },
+    },
+    { new: true }
+  ).then((course) => GetSingleCourse(Queries.ById(course?._id)));
 }
