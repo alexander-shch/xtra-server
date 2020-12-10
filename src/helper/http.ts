@@ -37,5 +37,5 @@ export function SuccessOrNotFound(
   if (!data) {
     return NotFound(res, message);
   }
-  return SuccessfulResponse(res, message);
+  return SuccessfulResponse(res, data);
 }

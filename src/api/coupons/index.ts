@@ -39,9 +39,7 @@ couponsRouter.get('/:id', allow(scope), (req: RequestExtend, res: Response) => {
   }
 
   return GetSingleCoupon(id)
-    .then((data) => {
-      return SuccessOrNotFound(res, data);
-    })
+    .then((data) => SuccessOrNotFound(res, data))
     .catch((err) => {
       console.log(err);
       return ServerError(res, mongoError(err));
@@ -90,7 +88,7 @@ couponsRouter.delete(
       })
       .catch((err) => {
         console.log(err);
-      return ServerError(res, mongoError(err));
+        return ServerError(res, mongoError(err));
       });
   }
 );
