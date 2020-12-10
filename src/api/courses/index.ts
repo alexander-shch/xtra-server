@@ -1,6 +1,7 @@
 const mongoErrors = require('mongo-error-handler');
 import { Router, Response } from 'express';
 import { isValidObjectId } from 'mongoose';
+import { UploadedFile } from 'express-fileupload';
 
 import { RequestExtend } from '../../auth';
 import allow from '../../helper/user-permission';
@@ -113,7 +114,7 @@ coursesRouter.post(
       return BadRequest(res, 'Course ID is incorrect');
     }
 
-    const fileToUpload = req.files?.file;
+    const fileToUpload = req.files?.file as UploadedFile;
 
     if (!fileToUpload) {
       return BadRequest(res, 'No file was provided');

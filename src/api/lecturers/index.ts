@@ -24,6 +24,7 @@ import {
 import { CreateNote, DeleteNote } from '../../db/v1/models/notes/controller';
 import Queries from '../../db/queries';
 import { Delete, Upload } from '../../db/v1/models/files/controller';
+import { UploadedFile } from 'express-fileupload';
 
 const lecturerRouter = Router();
 const scope = 'lecturer';
@@ -196,7 +197,7 @@ lecturerRouter.post(
       return BadRequest(res, 'Lecturer ID is incorrect');
     }
 
-    const fileToUpload = req.files?.file;
+    const fileToUpload = req.files?.file as UploadedFile;
 
     if (!fileToUpload) {
       return BadRequest(res, 'No file was provided');
@@ -228,7 +229,7 @@ lecturerRouter.post(
       return BadRequest(res, 'Lecturer ID is incorrect');
     }
 
-    const fileToUpload = req.files?.file;
+    const fileToUpload = req.files?.file as UploadedFile;
 
     if (!fileToUpload) {
       return BadRequest(res, 'No file was provided');
