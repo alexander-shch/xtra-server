@@ -26,7 +26,7 @@ jobs:
 
     - name: Install dependencies
       working-directory: ${{ env.workdir-server }}
-      run: yarn
+      run: yarn --frozen-lockfile
 
     - name: Run tsc compile
       working-directory: ${{ env.workdir-server }}
