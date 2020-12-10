@@ -1,6 +1,7 @@
 import { Document, model, Schema } from 'mongoose';
 
 export interface ICoupon {
+  title: string;
   code: string;
   isPercent: boolean;
   discount: number;
@@ -12,6 +13,7 @@ export interface ICoupon {
 export type ICouponDOC = ICoupon & Document;
 
 const CouponSchema = new Schema({
+  title: { type: String, required: true },
   code: { type: String, required: true, unique: true },
   isPercent: { type: Boolean, required: true },
   discount: { type: Number, required: true },
