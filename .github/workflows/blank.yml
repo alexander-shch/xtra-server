@@ -26,15 +26,15 @@ jobs:
 
     - name: Install dependencies
       working-directory: ${{ env.workdir-server }}
-      run: npm install
+      run: yarn
 
     - name: Run tsc compile
       working-directory: ${{ env.workdir-server }}
-      run: npm run tsc
+      run: yarn tsc
 
     - name: Run the tests and generate coverage report
       working-directory: ${{ env.workdir-server }}
-      run: npm run test
+      run: yarn test
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
