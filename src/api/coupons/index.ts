@@ -1,3 +1,4 @@
+const mongoError = require('mongo-error-handler');
 import { Router, Response } from 'express';
 import { isValidObjectId } from 'mongoose';
 
@@ -26,8 +27,8 @@ couponsRouter.get('/', allow(scope), (_: RequestExtend, res: Response) => {
       return SuccessfulResponse(res, data);
     })
     .catch((err) => {
-      console.error(err.errors);
-      return ServerError(res);
+      console.log(err);
+      return ServerError(res, mongoError(err));
     });
 });
 
@@ -42,8 +43,8 @@ couponsRouter.get('/:id', allow(scope), (req: RequestExtend, res: Response) => {
       return SuccessOrNotFound(res, data);
     })
     .catch((err) => {
-      console.error(err.errors);
-      return ServerError(res);
+      console.log(err);
+      return ServerError(res, mongoError(err));
     });
 });
 
@@ -53,8 +54,8 @@ couponsRouter.post('/', allow(scope), (req: RequestExtend, res: Response) => {
       return SuccessfulResponse(res, data);
     })
     .catch((err) => {
-      console.error(err.errors);
-      return ServerError(res);
+      console.log(err);
+      return ServerError(res, mongoError(err));
     });
 });
 
@@ -69,8 +70,8 @@ couponsRouter.put('/:id', allow(scope), (req: RequestExtend, res: Response) => {
       return SuccessOrNotFound(res, data);
     })
     .catch((err) => {
-      console.error(err.errors);
-      return ServerError(res);
+      console.log(err);
+      return ServerError(res, mongoError(err));
     });
 });
 
@@ -88,8 +89,8 @@ couponsRouter.delete(
         return SuccessOrNotFound(res, { deleted });
       })
       .catch((err) => {
-        console.error(err.errors);
-        return ServerError(res);
+        console.log(err);
+      return ServerError(res, mongoError(err));
       });
   }
 );
